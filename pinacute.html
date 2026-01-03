@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chúc mừng sinh nhật ❤️</title>
+  <style>
+    body{
+      margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(circle at top, #ffe3ef, #fff);
+      color:#2b2b2b;
+    }
+    .card{
+      width:min(720px, 92vw);
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(8px);
+      border:1px solid rgba(255,105,180,.25);
+      border-radius:24px;
+      padding:28px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.08);
+      position:relative;
+      overflow:hidden;
+    }
+    h1{ margin:0 0 8px; font-size: clamp(28px, 4vw, 44px); }
+    p{ margin:10px 0; line-height:1.6; font-size: 16px; }
+    .name{ color:#ff2d7a; font-weight:800; }
+    .btn{
+      margin-top:14px;
+      border:0; padding:12px 16px;
+      border-radius:14px; cursor:pointer;
+      background:#ff2d7a; color:white; font-weight:700;
+      box-shadow: 0 10px 24px rgba(255,45,122,.25);
+    }
+    .note{
+      margin-top:12px; display:none;
+      padding:14px 16px; border-radius:16px;
+      background:#fff; border:1px dashed rgba(255,45,122,.5);
+    }
+    .hearts{ position:absolute; inset:0; pointer-events:none; opacity:.25; }
+    .heart{
+      position:absolute; font-size:22px; animation: float 7s linear infinite;
+    }
+    @keyframes float{
+      from{ transform: translateY(40px); opacity:0; }
+      10%{ opacity:1; }
+      to{ transform: translateY(-780px); opacity:0; }
+    }
+    footer{ margin-top:18px; font-size:12px; opacity:.7; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="hearts" id="hearts"></div>
+
+    <h1>Chúc mừng sinh nhật <span class="name" id="loverName">Em yêu</span> 🎂</h1>
+    <p>
+      Hôm nay là ngày đặc biệt của em. Anh chỉ muốn nói là:
+      <b>cảm ơn em vì đã xuất hiện</b> và làm cuộc sống của anh đáng yêu hơn mỗi ngày.
+    </p>
+    <p>
+      Chúc em luôn khỏe mạnh, vui vẻ, gặp nhiều điều may mắn — và
+      <b>luôn tin rằng em xứng đáng với những điều tốt đẹp nhất</b>.
+    </p>
+
+    <button class="btn" id="btn">Bấm để mở lời nhắn bí mật 💌</button>
+    <div class="note" id="note">
+      <p style="margin:0">
+        Anh hứa sẽ thương em nhiều hơn hôm qua, và ít hơn ngày mai một chút 💖<br/>
+        <b>Happy Birthday!</b>
+      </p>
+    </div>
+
+    <footer>
+      Gợi ý: sửa tên ở dòng <b>loverName</b>, và sửa lời chúc theo style của bạn.
+    </footer>
+  </div>
+
+  <script>
+    // Đổi tên người yêu ở đây:
+    document.getElementById("loverName").textContent = "Bé ____";
+
+    // Nút mở lời nhắn
+    const btn = document.getElementById("btn");
+    const note = document.getElementById("note");
+    btn.addEventListener("click", () => {
+      note.style.display = note.style.display === "block" ? "none" : "block";
+      btn.textContent = note.style.display === "block"
+        ? "Đóng lại (để mở lần nữa) 🙈"
+        : "Bấm để mở lời nhắn bí mật 💌";
+    });
+
+    // Tạo tim bay
+    const hearts = document.getElementById("hearts");
+    const icons = ["❤️","💗","💖","💕","💘"];
+    function addHeart(){
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.textContent = icons[Math.floor(Math.random()*icons.length)];
+      h.style.left = Math.random()*100 + "%";
+      h.style.bottom = "-20px";
+      h.style.animationDuration = (5 + Math.random()*5) + "s";
+      h.style.fontSize = (16 + Math.random()*18) + "px";
+      hearts.appendChild(h);
+      setTimeout(() => h.remove(), 9000);
+    }
+    setInterval(addHeart, 350);
+  </script>
+</body>
+</html>
