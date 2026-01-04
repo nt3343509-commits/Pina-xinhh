@@ -67,7 +67,7 @@ body{
 }
 
 .box-base{
-  position:relative; /* ⭐ CỰC KỲ QUAN TRỌNG */
+  position:relative;
   position:absolute;
   bottom:0;
   left:0;
@@ -98,18 +98,60 @@ body{
 .ribbon-v{top:0;bottom:0;left:50%;width:18%;transform:translateX(-50%)}
 .ribbon-h{left:0;right:0;top:43%;height:12%}
 
-/* ⭐ IMAGE – FIX */
+/* ⭐ IMAGE – CINEMATIC */
 .gift-image{
   position:absolute;
   bottom:18%;
   left:50%;
-  transform:translateX(-50%);
+  transform:translateX(-50%) scale(1.05);
   width:70%;
   max-width:160px;
   border-radius:12px;
-  z-index:4; /* ⭐ CAO HƠN ::before */
+  z-index:4;
   box-shadow:0 10px 18px rgba(0,0,0,.15);
   pointer-events:none;
+
+  /* 🎥 cinematic motion */
+  animation:
+    imgFloat 4.5s ease-in-out infinite,
+    imgZoom 16s ease-in-out infinite;
+  filter:contrast(1.05) brightness(1.05) saturate(1.1);
+}
+
+/* 🎥 bay bay */
+@keyframes imgFloat{
+  0%,100%{transform:translateX(-50%) translateY(0) scale(1.05)}
+  50%{transform:translateX(-50%) translateY(-6px) scale(1.05)}
+}
+
+/* 🎥 zoom chậm */
+@keyframes imgZoom{
+  0%{scale:1.05}
+  50%{scale:1.12}
+  100%{scale:1.05}
+}
+
+/* 🎥 light sweep overlay */
+.box-base::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,.35),
+    transparent 70%
+  );
+  opacity:.35;
+  animation:lightSweep 6s ease-in-out infinite;
+  z-index:3;
+  pointer-events:none;
+}
+
+@keyframes lightSweep{
+  0%{transform:translateX(-120%)}
+  50%{transform:translateX(120%)}
+  100%{transform:translateX(120%)}
 }
 
 /* heart */
@@ -193,7 +235,6 @@ body{
       <div class="ribbon-v"></div>
       <div class="ribbon-h"></div>
 
-      <!-- ⭐ IMAGE -->
       <img src="Cafeee.jpeg" class="gift-image" alt="Cafeeee">
 
       <div class="gift-heart"><span>💗</span></div>
@@ -244,4 +285,3 @@ gift.addEventListener("keydown",e=>{
 </script>
 </body>
 </html>
-
