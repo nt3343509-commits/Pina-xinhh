@@ -29,7 +29,7 @@ body{
   justify-content:center;
 }
 
-/* FLOATING HEARTS */
+/* FLOATING */
 .floating{
   position:fixed;
   bottom:-20px;
@@ -39,7 +39,6 @@ body{
   pointer-events:none;
 }
 @keyframes floatUp{
-  from{transform:translateY(0);opacity:.9}
   to{transform:translateY(-110vh);opacity:0}
 }
 
@@ -51,11 +50,6 @@ body{
   margin:auto;
   position:relative;
   cursor:pointer;
-  animation:giftFloat 2.5s ease-in-out infinite;
-}
-@keyframes giftFloat{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-12px)}
 }
 .gift-box{
   position:absolute;
@@ -102,13 +96,7 @@ body{
   transform:translate(-50%,-50%);
   width:45%;
   border-radius:14px;
-  box-shadow:0 12px 24px rgba(0,0,0,.2);
 }
-
-/* TEXT INTRO */
-.intro h2{line-height:1.4}
-.subline{margin:8px 0;opacity:.8}
-.hint{margin-top:6px}
 
 /* CONTENT */
 .content{
@@ -120,9 +108,10 @@ body{
   padding:36px;
   box-shadow:0 30px 80px rgba(0,0,0,.15);
 }
+
 .reveal{
   opacity:0;
-  transform:translateY(24px);
+  transform:translateY(20px);
 }
 .reveal.show{
   animation:fadeUp .6s ease forwards;
@@ -130,12 +119,14 @@ body{
 @keyframes fadeUp{
   to{opacity:1;transform:translateY(0)}
 }
+
 .big-title{
   text-align:center;
   color:var(--pink);
   font-size:34px;
   font-weight:800;
 }
+
 p{text-align:center;line-height:1.9}
 
 /* BOXES */
@@ -182,21 +173,15 @@ p{text-align:center;line-height:1.9}
   justify-content:space-between;
   flex-wrap:wrap;
 }
-.love-left p{
-  margin:8px 0;
-  font-weight:600;
-}
-.love-right{
-  font-weight:800;
-  color:var(--pink);
-  align-self:flex-end;
-}
+.love-left p{margin:8px 0;font-weight:600}
+.love-right{font-weight:800;color:var(--pink)}
 </style>
 </head>
 
 <body>
 <div class="app">
 
+<!-- INTRO -->
 <section class="intro" id="intro">
   <div class="gift" id="gift">
     <div class="gift-lid"></div>
@@ -206,23 +191,21 @@ p{text-align:center;line-height:1.9}
       <img src="Cafeee.jpeg" class="gift-img">
     </div>
   </div>
-
   <h2>Pina dễ thương<br>Anh thương Pina lắm áaaa</h2>
-  <div class="subline">Anh có món quà nhỏ nhỏ tặng pina cute của anhh</div>
-  <div class="hint">Úm ba la cùng mở nhaaaa 🎁</div>
+  <p>Anh có món quà nhỏ nhỏ tặng pina cute của anhh</p>
+  <p>Úm ba la cùng mở nhaaaa 🎁</p>
 </section>
 
+<!-- CONTENT -->
 <section class="content" id="content">
   <div class="big-title reveal">Gửi Pina của anh 💕</div>
 
-  <p class="reveal">
-    Nhân dịp năm mới 2026<br>
-    Anh chúc Pina luôn xinh xắn, đáng yêu,<br>
-    có nhiều sức khỏe,<br>
-    đạt được mọi ước nguyện,<br>
-    và hạnh phúc bên gia đình,<br>
-    bên anh dài dài 💖💖💖
-  </p>
+  <p class="reveal">Nhân dịp năm mới 2026</p>
+  <p class="reveal">Anh chúc Pina luôn xinh xắn, đáng yêu</p>
+  <p class="reveal">có nhiều sức khỏe</p>
+  <p class="reveal">đạt được mọi ước nguyện</p>
+  <p class="reveal">và hạnh phúc bên gia đình</p>
+  <p class="reveal">bên anh dài dài 💖💖💖</p>
 
   <div class="box-row reveal">
     <div class="box" id="box1">🎀 Box1 nèee<div class="box-result" id="box1Result"></div></div>
@@ -251,51 +234,71 @@ const gift = document.getElementById("gift");
 const intro = document.getElementById("intro");
 const content = document.getElementById("content");
 const music = document.getElementById("music");
-let opened = false;
+
+const box1 = document.getElementById("box1");
+const box2 = document.getElementById("box2");
+const box3 = document.getElementById("box3");
+
+const box1Result = document.getElementById("box1Result");
+const box2Result = document.getElementById("box2Result");
+const box3Result = document.getElementById("box3Result");
+
+let opened=false;
 
 /* MUSIC */
 function playMusic(){
-  music.volume = 0;
+  music.volume=0;
   music.play();
-  let v = 0;
-  const fade = setInterval(()=>{
-    v += 0.02;
-    if(v >= 0.5){ v = 0.5; clearInterval(fade); }
-    music.volume = v;
+  let v=0;
+  const fade=setInterval(()=>{
+    v+=0.02;
+    if(v>=0.5){v=0.5;clearInterval(fade)}
+    music.volume=v;
   },120);
 }
 
+/* RESET BOX */
+function resetBoxes(){
+  box1Result.innerHTML="";
+  box2Result.innerHTML="";
+  box3Result.innerHTML="";
+}
+
 /* OPEN GIFT */
-gift.onclick = ()=>{
+gift.onclick=()=>{
   if(opened) return;
-  opened = true;
+  opened=true;
   playMusic();
   gift.classList.add("opening");
 
   setTimeout(()=>{
     intro.style.display="none";
     content.style.display="block";
-    document.querySelectorAll(".reveal")
-      .forEach((el,i)=>setTimeout(()=>el.classList.add("show"),i*350));
+
+    document.querySelectorAll(".reveal").forEach((el,i)=>{
+      setTimeout(()=>el.classList.add("show"), i*3000);
+    });
   },900);
 };
 
 /* BOX LOGIC */
 box1.onclick=()=>{
+  resetBoxes();
   box1Result.innerHTML="Đi ngủ cùng anhhh 😴🤤";
-  box1.onclick=null;
 };
+
 box2.onclick=()=>{
+  resetBoxes();
   box2Result.innerHTML=`
     <div class="options">
       <button onclick="box2Result.innerHTML='Tuần tới nữa mình đi coi nhaaaa 💗'">Thiên đường máu</button>
-      <button onclick="box2Result.innerHTML='💍'">Giống box 1</button>
+      <button onclick="box2Result.innerHTML='Pina dammmmm 🤤🤤🤤'">Giống box 1</button>
     </div>`;
-  box2.onclick=null;
 };
+
 box3.onclick=()=>{
+  resetBoxes();
   box3Result.innerHTML="Anh muốn hun pí na chụt chụtttt 💗💗";
-  box3.onclick=null;
 };
 
 /* FLOATING */
