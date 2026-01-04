@@ -27,10 +27,9 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  position:relative;
 }
 
-/* ===== FLOATING HEARTS + STARS ===== */
+/* FLOATING HEARTS */
 .floating{
   position:fixed;
   bottom:-20px;
@@ -40,15 +39,12 @@ body{
   pointer-events:none;
 }
 @keyframes floatUp{
-  from{transform:translateY(0) scale(.85);opacity:.95}
-  to{transform:translateY(-110vh) scale(1.25);opacity:0}
+  from{transform:translateY(0);opacity:.9}
+  to{transform:translateY(-110vh);opacity:0}
 }
 
-/* ===== INTRO ===== */
-.intro{
-  text-align:center;
-}
-
+/* INTRO */
+.intro{text-align:center}
 .gift{
   width:340px;
   aspect-ratio:1/1;
@@ -61,17 +57,14 @@ body{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-12px)}
 }
-
 .gift-box{
+  position:absolute;
+  bottom:0;
   width:100%;
   height:70%;
   background:#ffd1e6;
   border-radius:26px;
-  position:absolute;
-  bottom:0;
-  box-shadow:0 30px 60px rgba(0,0,0,.15);
 }
-
 .ribbon-v{
   position:absolute;
   width:18%;
@@ -87,11 +80,9 @@ body{
   background:var(--pink);
   top:43%;
 }
-
 .gift-lid{
   position:absolute;
   top:0;
-  left:0;
   width:100%;
   height:28%;
   background:#ffddee;
@@ -104,97 +95,101 @@ body{
 @keyframes openLid{
   to{transform:rotate(-35deg) translate(-20px,-10px)}
 }
-
-/* ✅ CÂN ẢNH NGAY GIỮA THÂN HỘP */
 .gift-img{
   position:absolute;
-  left:50%;
   top:50%;
+  left:50%;
   transform:translate(-50%,-50%);
   width:45%;
   border-radius:14px;
   box-shadow:0 12px 24px rgba(0,0,0,.2);
 }
 
-/* intro text */
-.title{
-  margin-top:22px;
-  font-size:26px;
-  font-weight:800;
-  line-height:1.4;
-}
-.subline{
-  margin:10px 0 0;
-  opacity:.8;
-  font-size:16px;
-  line-height:1.6;
-}
-.hint{
-  margin:10px 0 0;
-  font-size:16px;
-  line-height:1.6;
-}
+/* TEXT INTRO */
+.intro h2{line-height:1.4}
+.subline{margin:8px 0;opacity:.8}
+.hint{margin-top:6px}
 
-/* ===== CONTENT ===== */
+/* CONTENT */
 .content{
   display:none;
   width:92%;
   max-width:780px;
   background:#fff;
   border-radius:26px;
-  padding:36px 34px;
+  padding:36px;
   box-shadow:0 30px 80px rgba(0,0,0,.15);
 }
-
 .reveal{
   opacity:0;
   transform:translateY(24px);
 }
 .reveal.show{
-  animation:revealUp .7s ease forwards;
+  animation:fadeUp .6s ease forwards;
 }
-@keyframes revealUp{
+@keyframes fadeUp{
   to{opacity:1;transform:translateY(0)}
 }
-
 .big-title{
+  text-align:center;
   color:var(--pink);
   font-size:34px;
   font-weight:800;
+}
+p{text-align:center;line-height:1.9}
+
+/* BOXES */
+.box-row{
+  display:flex;
+  gap:14px;
+  margin-top:22px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.box{
+  flex:1;
+  min-width:180px;
+  padding:16px;
+  background:linear-gradient(135deg,#ffe3f0,#fff);
+  border-radius:18px;
   text-align:center;
-  margin-bottom:20px;
+  font-weight:600;
+  cursor:pointer;
+}
+.box-result{
+  margin-top:10px;
+  font-weight:700;
+  color:var(--pink);
 }
 
-.content p{
-  text-align:center;
-  line-height:1.9;
-  font-size:17px;
-  margin:10px 0;
+/* OPTIONS */
+.options button{
+  margin:6px;
+  padding:8px 14px;
+  border:none;
+  border-radius:14px;
+  background:#ffd1e6;
+  font-family:inherit;
+  cursor:pointer;
 }
 
-/* ===== FOOTER NOTE ===== */
-.footer-note{
-  margin-top:36px;
+/* FOOTER */
+.love-footer{
+  margin-top:40px;
   padding-top:24px;
   border-top:1px dashed #ffd1e6;
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
-  gap:20px;
   flex-wrap:wrap;
 }
-
-.footer-left p{
+.love-left p{
   margin:8px 0;
-  font-size:16px;
-  line-height:1.9;
+  font-weight:600;
 }
-
-.footer-right{
+.love-right{
   font-weight:800;
   color:var(--pink);
-  font-size:18px;
-  white-space:nowrap;
+  align-self:flex-end;
 }
 </style>
 </head>
@@ -202,30 +197,21 @@ body{
 <body>
 <div class="app">
 
-<!-- INTRO -->
 <section class="intro" id="intro">
-  <div class="gift" id="gift" tabindex="0">
+  <div class="gift" id="gift">
     <div class="gift-lid"></div>
-
     <div class="gift-box">
       <div class="ribbon-v"></div>
       <div class="ribbon-h"></div>
-      <img src="Cafeee.jpeg" class="gift-img" alt="Cafeeee">
+      <img src="Cafeee.jpeg" class="gift-img">
     </div>
   </div>
 
-  <div class="title">
-    Pina dễ thương<br>
-    Anh thương Pina lắm áaaa
-  </div>
-
-  <!-- ✅ DÒNG MỚI -->
+  <h2>Pina dễ thương<br>Anh thương Pina lắm áaaa</h2>
   <div class="subline">Anh có món quà nhỏ nhỏ tặng pina cute của anhh</div>
-
   <div class="hint">Úm ba la cùng mở nhaaaa 🎁</div>
 </section>
 
-<!-- CONTENT -->
 <section class="content" id="content">
   <div class="big-title reveal">Gửi Pina của anh 💕</div>
 
@@ -238,24 +224,26 @@ body{
     bên anh dài dài 💖💖💖
   </p>
 
-  <div class="footer-note reveal">
-    <div class="footer-left">
+  <div class="box-row reveal">
+    <div class="box" id="box1">🎀 Box1 nèee<div class="box-result" id="box1Result"></div></div>
+    <div class="box" id="box2">🎬 Box2 thì saooo<div class="box-result" id="box2Result"></div></div>
+    <div class="box" id="box3">💋 Box3 hehe<div class="box-result" id="box3Result"></div></div>
+  </div>
+
+  <div class="love-footer reveal">
+    <div class="love-left">
       <p>Anh thương Pina nhất trên đời 💗💗💗</p>
       <p>Anh yêu Pinaa lắmmm 💗💗💗</p>
       <p>Tụi mình cùng cố gắng về 1 nhà nhaaaaa 💗 💍</p>
     </div>
-
-    <div class="footer-right">
-      Anh yêu của Pinaaa
-    </div>
+    <div class="love-right">Anh yêu của Pinaaa</div>
   </div>
 </section>
 
 </div>
 
-<!-- MUSIC -->
 <audio id="music" loop>
-  <source src="mot-ngay-hay-tram-nam.mp3" type="audio/mpeg">
+  <source src="mot-ngay-hay-tram-nam.mp3">
 </audio>
 
 <script>
@@ -263,61 +251,63 @@ const gift = document.getElementById("gift");
 const intro = document.getElementById("intro");
 const content = document.getElementById("content");
 const music = document.getElementById("music");
-
 let opened = false;
 
-/* MUSIC FADE IN */
+/* MUSIC */
 function playMusic(){
   music.volume = 0;
   music.play();
   let v = 0;
   const fade = setInterval(()=>{
     v += 0.02;
-    if(v >= 0.5){
-      v = 0.5;
-      clearInterval(fade);
-    }
+    if(v >= 0.5){ v = 0.5; clearInterval(fade); }
     music.volume = v;
-  }, 120);
+  },120);
 }
 
 /* OPEN GIFT */
-function openGift(){
+gift.onclick = ()=>{
   if(opened) return;
   opened = true;
-
   playMusic();
   gift.classList.add("opening");
 
   setTimeout(()=>{
-    intro.style.display = "none";
-    content.style.display = "block";
+    intro.style.display="none";
+    content.style.display="block";
+    document.querySelectorAll(".reveal")
+      .forEach((el,i)=>setTimeout(()=>el.classList.add("show"),i*350));
+  },900);
+};
 
-    const items = document.querySelectorAll(".reveal");
-    items.forEach((el, i)=>{
-      setTimeout(()=> el.classList.add("show"), i * 350);
-    });
-  }, 900);
-}
+/* BOX LOGIC */
+box1.onclick=()=>{
+  box1Result.innerHTML="Đi ngủ cùng anhhh 😴🤤";
+  box1.onclick=null;
+};
+box2.onclick=()=>{
+  box2Result.innerHTML=`
+    <div class="options">
+      <button onclick="box2Result.innerHTML='Tuần tới nữa mình đi coi nhaaaa 💗'">Thiên đường máu</button>
+      <button onclick="box2Result.innerHTML='💍'">Giống box 1</button>
+    </div>`;
+  box2.onclick=null;
+};
+box3.onclick=()=>{
+  box3Result.innerHTML="Anh muốn hun pí na chụt chụtttt 💗💗";
+  box3.onclick=null;
+};
 
-gift.addEventListener("click", openGift);
-gift.addEventListener("keydown", e=>{
-  if(e.key === "Enter" || e.key === " "){
-    e.preventDefault();
-    openGift();
-  }
-});
-
-/* FLOATING HEARTS + STARS */
+/* FLOATING */
 setInterval(()=>{
-  const el = document.createElement("div");
-  el.className = "floating";
-  el.style.left = Math.random()*100 + "vw";
-  el.style.animationDuration = (6 + Math.random()*4) + "s";
-  el.innerText = Math.random() > 0.5 ? "💖" : "✨";
+  const el=document.createElement("div");
+  el.className="floating";
+  el.style.left=Math.random()*100+"vw";
+  el.style.animationDuration=6+Math.random()*4+"s";
+  el.innerText=Math.random()>0.5?"💖":"✨";
   document.body.appendChild(el);
-  setTimeout(()=> el.remove(), 10000);
-}, 350);
+  setTimeout(()=>el.remove(),10000);
+},350);
 </script>
 </body>
 </html>
