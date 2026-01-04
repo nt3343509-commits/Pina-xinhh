@@ -79,7 +79,6 @@ body{
   z-index:1;
 }
 
-/* lớp phủ */
 .box-base::before{
   content:"";
   position:absolute;
@@ -97,7 +96,7 @@ body{
 .ribbon-v{top:0;bottom:0;left:50%;width:18%;transform:translateX(-50%)}
 .ribbon-h{left:0;right:0;top:43%;height:12%}
 
-/* image (giữ nguyên, không animation nữa) */
+/* image */
 .gift-image{
   position:absolute;
   bottom:18%;
@@ -165,17 +164,38 @@ body{
   to{transform:rotate(-42deg) translate(-14px,-18px)}
 }
 
-/* text */
-.gift-text{
-  font-weight:800;
-  font-size:22px;
+/* ===== CONTENT REVEAL ===== */
+.content{
+  display:none;
   text-align:center;
 }
-.hint{opacity:.7;font-size:14px}
 
-/* ===== CONTENT ===== */
-.content{display:none;text-align:center}
-.content.show{display:block}
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+}
+
+.reveal.show{
+  animation:revealUp 0.7s ease forwards;
+}
+
+@keyframes revealUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* box demo */
+.box{
+  margin:16px auto 0;
+  padding:14px 20px;
+  max-width:300px;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 10px 24px rgba(0,0,0,.08);
+  font-weight:600;
+}
 </style>
 </head>
 
@@ -192,7 +212,6 @@ body{
       <div class="ribbon-h"></div>
 
       <img src="Cafeee.jpeg" class="gift-image" alt="Cafeeee">
-
       <div class="gift-heart"><span>💗</span></div>
     </div>
 
@@ -208,8 +227,12 @@ body{
 </section>
 
 <section class="content" id="content">
-  <h1>Gửi Pina của anh 💕</h1>
-  <p>Anh yêu Pina nhìu nhìu 💗</p>
+  <h1 class="reveal">Gửi Pina của anh 💕</h1>
+  <p class="reveal">Anh yêu Pina nhìu nhìu 💗</p>
+
+  <div class="box reveal">💝 Mỗi ngày bên em là một ngày hạnh phúc</div>
+  <div class="box reveal">💌 Anh hứa sẽ luôn ở đây</div>
+  <div class="box reveal">💖 Yêu em, hôm nay và rất lâu sau nữa</div>
 </section>
 
 </div>
@@ -226,34 +249,39 @@ const content = document.getElementById("content");
 const music = document.getElementById("bg-music");
 
 let opened = false;
-let fadeInterval = null;
 
 function fadeInMusic(){
   music.volume = 0;
   music.play();
-
   let vol = 0;
-  fadeInterval = setInterval(()=>{
-    vol += 0.02;          // tốc độ fade
+  const fade = setInterval(()=>{
+    vol += 0.02;
     if(vol >= 0.5){
       vol = 0.5;
-      clearInterval(fadeInterval);
+      clearInterval(fade);
     }
     music.volume = vol;
-  }, 120); // ~3s fade in
+  },120);
 }
 
 function openGift(){
   if(opened) return;
   opened = true;
 
-  fadeInMusic(); // 🎵 phát + fade in nhạc
-
+  fadeInMusic();
   gift.classList.add("opening");
 
   setTimeout(()=>{
     intro.style.display="none";
-    content.classList.add("show");
+    content.style.display="block";
+
+    const items = content.querySelectorAll(".reveal");
+    items.forEach((el,i)=>{
+      setTimeout(()=>{
+        el.classList.add("show");
+      }, i * 400);
+    });
+
   },900);
 }
 
