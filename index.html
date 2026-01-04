@@ -42,12 +42,11 @@ body{
   to{transform:translateY(-110vh);opacity:0}
 }
 
-/* INTRO */
+/* ===== INTRO (PAGE 1) ===== */
 .intro{text-align:center}
 .gift{
-  width:340px;
+  width:320px;
   aspect-ratio:1/1;
-  margin:auto;
   position:relative;
   cursor:pointer;
 }
@@ -89,29 +88,49 @@ body{
 @keyframes openLid{
   to{transform:rotate(-35deg) translate(-20px,-10px)}
 }
-.gift-img{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:45%;
-  border-radius:14px;
-}
 
-/* CONTENT */
+/* ===== PAGE 2 CONTENT ===== */
 .content{
   display:none;
-  width:92%;
-  max-width:780px;
+  width:94%;
+  max-width:920px;
   background:#fff;
-  border-radius:26px;
-  padding:36px;
+  border-radius:28px;
+  padding:40px;
   box-shadow:0 30px 80px rgba(0,0,0,.15);
 }
 
+/* layout text + image */
+.content-inner{
+  display:flex;
+  gap:40px;
+  align-items:flex-start;
+}
+.text-col{
+  flex:1;
+}
+.image-col{
+  width:260px;
+  flex-shrink:0;
+  opacity:0;
+  transform:scale(.85);
+}
+.image-col.show{
+  animation:imageFade 1.2s ease forwards;
+}
+@keyframes imageFade{
+  to{opacity:1;transform:scale(1)}
+}
+.image-col img{
+  width:100%;
+  border-radius:18px;
+  box-shadow:0 18px 36px rgba(0,0,0,.2);
+}
+
+/* reveal text */
 .reveal{
   opacity:0;
-  transform:translateY(20px);
+  transform:translateY(16px);
 }
 .reveal.show{
   animation:fadeUp .6s ease forwards;
@@ -125,38 +144,42 @@ body{
   color:var(--pink);
   font-size:34px;
   font-weight:800;
+  margin-bottom:20px;
 }
-
-p{text-align:center;line-height:1.9}
+.text-col p{
+  text-align:center;
+  line-height:1.9;
+  margin:12px 0;
+}
 
 /* BOXES */
 .box-row{
   display:flex;
-  gap:14px;
-  margin-top:22px;
+  gap:16px;
+  margin:30px 0;
   justify-content:center;
-  flex-wrap:wrap;
 }
 .box{
-  flex:1;
-  min-width:180px;
-  padding:16px;
-  background:linear-gradient(135deg,#ffe3f0,#fff);
-  border-radius:18px;
+  width:200px;
+  padding:18px;
+  background:#ffeaf3;
+  border-radius:20px;
   text-align:center;
-  font-weight:600;
+  font-weight:700;
   cursor:pointer;
 }
 .box-result{
-  margin-top:10px;
+  margin-top:12px;
   font-weight:700;
   color:var(--pink);
 }
 
 /* OPTIONS */
 .options button{
-  margin:6px;
-  padding:8px 14px;
+  display:block;
+  width:100%;
+  margin:8px 0;
+  padding:10px;
   border:none;
   border-radius:14px;
   background:#ffd1e6;
@@ -166,7 +189,7 @@ p{text-align:center;line-height:1.9}
 
 /* FOOTER */
 .love-footer{
-  margin-top:40px;
+  margin-top:36px;
   padding-top:24px;
   border-top:1px dashed #ffd1e6;
   display:flex;
@@ -181,36 +204,46 @@ p{text-align:center;line-height:1.9}
 <body>
 <div class="app">
 
-<!-- INTRO -->
+<!-- PAGE 1 -->
 <section class="intro" id="intro">
   <div class="gift" id="gift">
     <div class="gift-lid"></div>
     <div class="gift-box">
       <div class="ribbon-v"></div>
       <div class="ribbon-h"></div>
-      <img src="Cafeee.jpeg" class="gift-img">
     </div>
   </div>
+
   <h2>Pina dễ thương<br>Anh thương Pina lắm áaaa</h2>
   <p>Anh có món quà nhỏ nhỏ tặng pina cute của anhh</p>
   <p>Úm ba la cùng mở nhaaaa 🎁</p>
 </section>
 
-<!-- CONTENT -->
+<!-- PAGE 2 -->
 <section class="content" id="content">
   <div class="big-title reveal">Gửi Pina của anh 💕</div>
 
-  <p class="reveal">Nhân dịp năm mới 2026</p>
-  <p class="reveal">Anh chúc Pina luôn xinh xắn, đáng yêu</p>
-  <p class="reveal">có nhiều sức khỏe</p>
-  <p class="reveal">đạt được mọi ước nguyện</p>
-  <p class="reveal">và hạnh phúc bên gia đình</p>
-  <p class="reveal">bên anh dài dài 💖💖💖</p>
+  <div class="content-inner">
+    <!-- TEXT -->
+    <div class="text-col">
+      <p class="reveal">Nhân dịp năm mới 2026</p>
+      <p class="reveal">Anh chúc Pina luôn xinh xắn, đáng yêu</p>
+      <p class="reveal">có nhiều sức khỏe</p>
+      <p class="reveal">đạt được mọi ước nguyện</p>
+      <p class="reveal">và hạnh phúc bên gia đình</p>
+      <p class="reveal">bên anh dài dài 💖💖💖</p>
+    </div>
+
+    <!-- IMAGE -->
+    <div class="image-col" id="imageCol">
+      <img src="Cafeee.jpeg" alt="Pina">
+    </div>
+  </div>
 
   <div class="box-row reveal">
-    <div class="box" id="box1">🎀 Box1 nèee<div class="box-result" id="box1Result"></div></div>
-    <div class="box" id="box2">🎬 Box2 thì saooo<div class="box-result" id="box2Result"></div></div>
-    <div class="box" id="box3">💋 Box3 hehe<div class="box-result" id="box3Result"></div></div>
+    <div class="box" id="box1">🎀 Box1 nèee<div class="box-result" id="r1"></div></div>
+    <div class="box" id="box2">🎬 Box2 thì saooo<div class="box-result" id="r2"></div></div>
+    <div class="box" id="box3">💋 Box3 hehe<div class="box-result" id="r3"></div></div>
   </div>
 
   <div class="love-footer reveal">
@@ -234,14 +267,11 @@ const gift = document.getElementById("gift");
 const intro = document.getElementById("intro");
 const content = document.getElementById("content");
 const music = document.getElementById("music");
+const imageCol = document.getElementById("imageCol");
 
-const box1 = document.getElementById("box1");
-const box2 = document.getElementById("box2");
-const box3 = document.getElementById("box3");
-
-const box1Result = document.getElementById("box1Result");
-const box2Result = document.getElementById("box2Result");
-const box3Result = document.getElementById("box3Result");
+const r1 = document.getElementById("r1");
+const r2 = document.getElementById("r2");
+const r3 = document.getElementById("r3");
 
 let opened=false;
 
@@ -259,9 +289,9 @@ function playMusic(){
 
 /* RESET BOX */
 function resetBoxes(){
-  box1Result.innerHTML="";
-  box2Result.innerHTML="";
-  box3Result.innerHTML="";
+  r1.innerHTML="";
+  r2.innerHTML="";
+  r3.innerHTML="";
 }
 
 /* OPEN GIFT */
@@ -275,30 +305,37 @@ gift.onclick=()=>{
     intro.style.display="none";
     content.style.display="block";
 
-    document.querySelectorAll(".reveal").forEach((el,i)=>{
+    const reveals = document.querySelectorAll(".reveal");
+    reveals.forEach((el,i)=>{
       setTimeout(()=>el.classList.add("show"), i*2000);
     });
+
+    // image fade in song song khi text đang hiện
+    setTimeout(()=>{
+      imageCol.classList.add("show");
+    }, 3000);
+
   },900);
 };
 
 /* BOX LOGIC */
 box1.onclick=()=>{
   resetBoxes();
-  box1Result.innerHTML="Đi ngủ cùng anhhh 😴🤤";
+  r1.innerHTML="Đi ngủ cùng anhhh 😴🤤";
 };
-
 box2.onclick=()=>{
   resetBoxes();
-  box2Result.innerHTML=`
+  r2.innerHTML=`
     <div class="options">
-      <button onclick="box2Result.innerHTML='Tuần tới nữa mình đi coi nhaaaa 💗'">Thiên đường máu</button>
-      <button onclick="box2Result.innerHTML='Pina dammmmm 🤤🤤🤤'">Giống box 1</button>
+      <button id="opt1">Thiên đường máu</button>
+      <button id="opt2">Giống box 1</button>
     </div>`;
+  document.getElementById("opt1").onclick=()=>{ r2.innerHTML="Tuần tới nữa mình đi coi nhaaaa 💗"; };
+  document.getElementById("opt2").onclick=()=>{ r2.innerHTML="💍"; };
 };
-
 box3.onclick=()=>{
   resetBoxes();
-  box3Result.innerHTML="Anh muốn hun pí na chụt chụtttt 💗💗";
+  r3.innerHTML="Anh muốn hun pí na chụt chụtttt 💗💗";
 };
 
 /* FLOATING */
@@ -313,5 +350,3 @@ setInterval(()=>{
 },350);
 </script>
 </body>
-</html>
-
