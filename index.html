@@ -42,7 +42,7 @@ body{
   to{transform:translateY(-110vh);opacity:0}
 }
 
-/* ===== INTRO (PAGE 1) ===== */
+/* ===== PAGE 1 ===== */
 .intro{text-align:center}
 .gift{
   width:320px;
@@ -89,7 +89,7 @@ body{
   to{transform:rotate(-35deg) translate(-20px,-10px)}
 }
 
-/* ===== PAGE 2 CONTENT ===== */
+/* ===== PAGE 2 ===== */
 .content{
   display:none;
   width:94%;
@@ -100,18 +100,16 @@ body{
   box-shadow:0 30px 80px rgba(0,0,0,.15);
 }
 
-/* layout text + image */
 .content-inner{
   display:flex;
   gap:40px;
   align-items:flex-start;
 }
-.text-col{
-  flex:1;
-}
+
+.text-col{flex:1}
+
 .image-col{
   width:260px;
-  flex-shrink:0;
   opacity:0;
   transform:scale(.85);
 }
@@ -127,7 +125,7 @@ body{
   box-shadow:0 18px 36px rgba(0,0,0,.2);
 }
 
-/* reveal text */
+/* REVEAL */
 .reveal{
   opacity:0;
   transform:translateY(16px);
@@ -150,6 +148,16 @@ body{
   text-align:center;
   line-height:1.9;
   margin:12px 0;
+}
+
+/* 💗 NEW QUESTION */
+.big-question{
+  margin:26px 0 6px;
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+  color:#ff2f7a;
+  letter-spacing:.5px;
 }
 
 /* BOXES */
@@ -224,17 +232,20 @@ body{
   <div class="big-title reveal">Gửi Pina của anh 💕</div>
 
   <div class="content-inner">
-    <!-- TEXT -->
     <div class="text-col">
       <p class="reveal">Nhân dịp năm mới 2026</p>
       <p class="reveal">Anh chúc Pina luôn xinh xắn, đáng yêu</p>
       <p class="reveal">có nhiều sức khỏe</p>
       <p class="reveal">đạt được mọi ước nguyện</p>
       <p class="reveal">và hạnh phúc bên gia đình</p>
-      <p class="reveal">bên anh dài dài 💖💖💖</p>
+      <p class="reveal">bên anh trọn đời này nhaa 💖💖💖</p>
+
+      <!-- 💗 NEW QUESTION -->
+      <div class="big-question reveal">
+        PÍ NA MUỐN ANH CHỞ ĐI CHƠI TẾT Ở ĐÂUUUUUUU 💗💗💗
+      </div>
     </div>
 
-    <!-- IMAGE -->
     <div class="image-col" id="imageCol">
       <img src="Cafeee.jpeg" alt="Pina">
     </div>
@@ -269,9 +280,9 @@ const content = document.getElementById("content");
 const music = document.getElementById("music");
 const imageCol = document.getElementById("imageCol");
 
-const r1 = document.getElementById("r1");
-const r2 = document.getElementById("r2");
-const r3 = document.getElementById("r3");
+const r1=document.getElementById("r1");
+const r2=document.getElementById("r2");
+const r3=document.getElementById("r3");
 
 let opened=false;
 
@@ -289,9 +300,7 @@ function playMusic(){
 
 /* RESET BOX */
 function resetBoxes(){
-  r1.innerHTML="";
-  r2.innerHTML="";
-  r3.innerHTML="";
+  r1.innerHTML=""; r2.innerHTML=""; r3.innerHTML="";
 }
 
 /* OPEN GIFT */
@@ -305,24 +314,16 @@ gift.onclick=()=>{
     intro.style.display="none";
     content.style.display="block";
 
-    const reveals = document.querySelectorAll(".reveal");
-    reveals.forEach((el,i)=>{
+    document.querySelectorAll(".reveal").forEach((el,i)=>{
       setTimeout(()=>el.classList.add("show"), i*2000);
     });
 
-    // image fade in song song khi text đang hiện
-    setTimeout(()=>{
-      imageCol.classList.add("show");
-    }, 3000);
-
+    setTimeout(()=>imageCol.classList.add("show"),3000);
   },900);
 };
 
 /* BOX LOGIC */
-box1.onclick=()=>{
-  resetBoxes();
-  r1.innerHTML="Đi ngủ cùng anhhh 😴🤤";
-};
+box1.onclick=()=>{ resetBoxes(); r1.innerHTML="Đi ngủ cùng anhhh 😴🤤"; };
 box2.onclick=()=>{
   resetBoxes();
   r2.innerHTML=`
@@ -330,13 +331,10 @@ box2.onclick=()=>{
       <button id="opt1">Thiên đường máu</button>
       <button id="opt2">Giống box 1</button>
     </div>`;
-  document.getElementById("opt1").onclick=()=>{ r2.innerHTML="Tuần tới nữa mình đi coi nhaaaa 💗"; };
-  document.getElementById("opt2").onclick=()=>{ r2.innerHTML="💍"; };
+  document.getElementById("opt1").onclick=()=>r2.innerHTML="Tuần tới nữa mình đi coi nhaaaa 💗";
+  document.getElementById("opt2").onclick=()=>r2.innerHTML="💍";
 };
-box3.onclick=()=>{
-  resetBoxes();
-  r3.innerHTML="Anh muốn hun pí na chụt chụtttt 💗💗";
-};
+box3.onclick=()=>{ resetBoxes(); r3.innerHTML="Anh muốn hun pí na chụt chụtttt 💗💗"; };
 
 /* FLOATING */
 setInterval(()=>{
@@ -350,3 +348,4 @@ setInterval(()=>{
 },350);
 </script>
 </body>
+</html>
