@@ -19,14 +19,16 @@ body{
   margin:0;
   font-family:"Baloo 2",sans-serif;
   background:radial-gradient(circle at top,var(--bg2),var(--bg1));
-  overflow:hidden;
+  /* ❗ CHO PHÉP SCROLL */
+  overflow-x:hidden;
 }
 
 .app{
   min-height:100vh;
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   justify-content:center;
+  padding:20px;
 }
 
 /* FLOATING */
@@ -45,10 +47,11 @@ body{
 /* ===== PAGE 1 ===== */
 .intro{text-align:center}
 .gift{
-  width:320px;
+  width:300px;
   aspect-ratio:1/1;
   position:relative;
   cursor:pointer;
+  margin:auto;
 }
 .gift-box{
   position:absolute;
@@ -92,20 +95,20 @@ body{
 /* ===== PAGE 2 ===== */
 .content{
   display:none;
-  width:94%;
+  width:100%;
   max-width:920px;
   background:#fff;
   border-radius:28px;
-  padding:40px;
+  padding:32px;
   box-shadow:0 30px 80px rgba(0,0,0,.15);
 }
 
+/* layout */
 .content-inner{
   display:flex;
-  gap:40px;
+  gap:32px;
   align-items:flex-start;
 }
-
 .text-col{flex:1}
 
 .image-col{
@@ -125,7 +128,7 @@ body{
   box-shadow:0 18px 36px rgba(0,0,0,.2);
 }
 
-/* REVEAL */
+/* reveal */
 .reveal{
   opacity:0;
   transform:translateY(16px);
@@ -140,36 +143,36 @@ body{
 .big-title{
   text-align:center;
   color:var(--pink);
-  font-size:34px;
+  font-size:32px;
   font-weight:800;
-  margin-bottom:20px;
+  margin-bottom:16px;
 }
 .text-col p{
   text-align:center;
-  line-height:1.9;
-  margin:12px 0;
+  line-height:1.8;
+  margin:10px 0;
 }
 
-/* 💗 NEW QUESTION */
+/* question */
 .big-question{
-  margin:26px 0 6px;
+  margin:22px 0 10px;
   text-align:center;
   font-size:22px;
   font-weight:800;
   color:#ff2f7a;
-  letter-spacing:.5px;
 }
 
 /* BOXES */
 .box-row{
   display:flex;
   gap:16px;
-  margin:30px 0;
+  margin:24px 0;
   justify-content:center;
+  flex-wrap:wrap;
 }
 .box{
   width:200px;
-  padding:18px;
+  padding:16px;
   background:#ffeaf3;
   border-radius:20px;
   text-align:center;
@@ -182,7 +185,7 @@ body{
   color:var(--pink);
 }
 
-/* OPTIONS */
+/* options */
 .options button{
   display:block;
   width:100%;
@@ -195,17 +198,36 @@ body{
   cursor:pointer;
 }
 
-/* FOOTER */
+/* footer */
 .love-footer{
-  margin-top:36px;
-  padding-top:24px;
+  margin-top:32px;
+  padding-top:20px;
   border-top:1px dashed #ffd1e6;
   display:flex;
   justify-content:space-between;
   flex-wrap:wrap;
+  gap:12px;
 }
-.love-left p{margin:8px 0;font-weight:600}
+.love-left p{margin:6px 0;font-weight:600}
 .love-right{font-weight:800;color:var(--pink)}
+
+/* ===== MOBILE FIX ===== */
+@media (max-width: 768px){
+  .content-inner{
+    flex-direction:column;
+    align-items:center;
+  }
+  .image-col{
+    width:80%;
+    margin-top:12px;
+  }
+  .box{
+    width:100%;
+    max-width:320px;
+  }
+  .big-title{font-size:26px}
+  .big-question{font-size:20px}
+}
 </style>
 </head>
 
@@ -238,9 +260,8 @@ body{
       <p class="reveal">có nhiều sức khỏe</p>
       <p class="reveal">đạt được mọi ước nguyện</p>
       <p class="reveal">và hạnh phúc bên gia đình</p>
-      <p class="reveal">bên anh trọn đời này nhaa 💖💖💖</p>
+      <p class="reveal">bên anh dài dài 💖💖💖</p>
 
-      <!-- 💗 NEW QUESTION -->
       <div class="big-question reveal">
         PÍ NA MUỐN ANH CHỞ ĐI CHƠI TẾT Ở ĐÂUUUUUUU 💗💗💗
       </div>
@@ -303,7 +324,7 @@ function resetBoxes(){
   r1.innerHTML=""; r2.innerHTML=""; r3.innerHTML="";
 }
 
-/* OPEN GIFT */
+/* OPEN */
 gift.onclick=()=>{
   if(opened) return;
   opened=true;
@@ -322,19 +343,35 @@ gift.onclick=()=>{
   },900);
 };
 
-/* BOX LOGIC */
-box1.onclick=()=>{ resetBoxes(); r1.innerHTML="Đi ngủ cùng anhhh 😴🤤"; };
-box2.onclick=()=>{
+/* BOX LOGIC – FIXED */
+document.getElementById("box1").onclick=()=>{
   resetBoxes();
-  r2.innerHTML=`
-    <div class="options">
-      <button id="opt1">Thiên đường máu</button>
-      <button id="opt2">Giống box 1</button>
-    </div>`;
-  document.getElementById("opt1").onclick=()=>r2.innerHTML="Tuần tới nữa mình đi coi nhaaaa 💗";
-  document.getElementById("opt2").onclick=()=>r2.innerHTML="💍";
+  r1.textContent="Đi ngủ cùng anhhh 😴🤤";
 };
-box3.onclick=()=>{ resetBoxes(); r3.innerHTML="Anh muốn hun pí na chụt chụtttt 💗💗"; };
+
+document.getElementById("box2").onclick=()=>{
+  resetBoxes();
+  r2.innerHTML="";
+  const wrap=document.createElement("div");
+  wrap.className="options";
+
+  const b1=document.createElement("button");
+  b1.textContent="Thiên đường máu";
+  b1.onclick=()=>{ r2.textContent="Tuần tới nữa mình đi coi nhaaaa 💗"; };
+
+  const b2=document.createElement("button");
+  b2.textContent="Giống box 1";
+  b2.onclick=()=>{ r2.textContent="Pina dâmmmmm, mà anh thíchhh 💗"; };
+
+  wrap.appendChild(b1);
+  wrap.appendChild(b2);
+  r2.appendChild(wrap);
+};
+
+document.getElementById("box3").onclick=()=>{
+  resetBoxes();
+  r3.textContent="Anh muốn hun pí na chụt chụtttt 💗💗";
+};
 
 /* FLOATING */
 setInterval(()=>{
