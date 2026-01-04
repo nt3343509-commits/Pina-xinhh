@@ -12,9 +12,11 @@
 <style>
 :root{
   --bg1:#ffe2ee;
+  --bg2:#fff1f7;
   --hot:#ff2f7a;
   --shadow: 0 18px 45px rgba(0,0,0,.10);
 }
+
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
@@ -22,18 +24,24 @@ body{
   font-family:"Baloo 2",sans-serif;
   background:linear-gradient(180deg,var(--bg1),#fff);
 }
+
+/* ===== APP ===== */
 .app{
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
 }
+
+/* ===== INTRO ===== */
 .intro{
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:14px;
 }
+
+/* ===== GIFT ===== */
 .gift{
   position:relative;
   width:260px;
@@ -45,6 +53,7 @@ body{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-8px)}
 }
+
 .lid{
   position:absolute;
   top:6%;
@@ -56,6 +65,7 @@ body{
   transform-origin:12% 90%;
   z-index:5;
 }
+
 .box-base{
   position:absolute;
   bottom:0;
@@ -66,49 +76,42 @@ body{
   border-radius:20px;
   overflow:hidden;
   box-shadow:var(--shadow);
+  z-index:1;
 }
+
+/* lớp phủ */
+.box-base::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(450px 200px at 50% 10%,rgba(255,255,255,.55),transparent 60%);
+  z-index:1;
+}
+
+/* ribbon */
 .ribbon-v,.ribbon-h{
   position:absolute;
   background:#ff4f8f;
+  z-index:2;
 }
 .ribbon-v{top:0;bottom:0;left:50%;width:18%;transform:translateX(-50%)}
 .ribbon-h{left:0;right:0;top:43%;height:12%}
 
-/* 🔥 IMAGE – HIỆU ỨNG THẤY RÕ */
+/* image (giữ nguyên, không animation nữa) */
 .gift-image{
   position:absolute;
   bottom:18%;
   left:50%;
+  transform:translateX(-50%);
   width:70%;
   max-width:160px;
-  transform-origin:center bottom;
   border-radius:12px;
   z-index:4;
+  box-shadow:0 10px 18px rgba(0,0,0,.15);
   pointer-events:none;
-  box-shadow:0 12px 24px rgba(0,0,0,.2);
-
-  animation:cinematic 6s ease-in-out infinite;
 }
 
-/* 👉 LẮC + ZOOM + PARALLAX */
-@keyframes cinematic{
-  0%{
-    transform:translateX(-50%) rotate(-1.5deg) scale(1.05);
-  }
-  25%{
-    transform:translateX(-50%) rotate(1.5deg) scale(1.1);
-  }
-  50%{
-    transform:translateX(-50%) rotate(-1deg) scale(1.15);
-  }
-  75%{
-    transform:translateX(-50%) rotate(1deg) scale(1.1);
-  }
-  100%{
-    transform:translateX(-50%) rotate(-1.5deg) scale(1.05);
-  }
-}
-
+/* heart */
 .gift-heart{
   position:absolute;
   left:50%;
@@ -122,6 +125,9 @@ body{
   justify-content:center;
   z-index:5;
 }
+.gift-heart span{font-size:22px}
+
+/* bow */
 .bow{
   position:absolute;
   top:10%;
@@ -150,18 +156,24 @@ body{
   background:#ff2f7a;
   border-radius:999px;
 }
+
+/* opening animation */
 .gift.opening .lid{
   animation:open 0.7s forwards;
 }
 @keyframes open{
   to{transform:rotate(-42deg) translate(-14px,-18px)}
 }
+
+/* text */
 .gift-text{
   font-weight:800;
   font-size:22px;
   text-align:center;
 }
 .hint{opacity:.7;font-size:14px}
+
+/* ===== CONTENT ===== */
 .content{display:none;text-align:center}
 .content.show{display:block}
 </style>
@@ -169,18 +181,29 @@ body{
 
 <body>
 <div class="app">
+
 <section class="intro" id="intro">
   <div class="gift" id="gift" tabindex="0">
+
     <div class="lid"></div>
+
     <div class="box-base">
       <div class="ribbon-v"></div>
       <div class="ribbon-h"></div>
-      <img src="Cafeee.jpeg" class="gift-image">
+
+      <img src="Cafeee.jpeg" class="gift-image" alt="Cafeeee">
+
       <div class="gift-heart"><span>💗</span></div>
     </div>
+
     <div class="bow"><div class="knot"></div></div>
   </div>
-  <div class="gift-text">Pina dễ thương<br>Anh thương pina lắm áaaa</div>
+
+  <div class="gift-text">
+    Pina dễ thương<br>
+    Anh thương pina lắm áaaa
+  </div>
+
   <div class="hint">Úm ba la cùng mở nhaaaa 🎁</div>
 </section>
 
@@ -188,26 +211,57 @@ body{
   <h1>Gửi Pina của anh 💕</h1>
   <p>Anh yêu Pina nhìu nhìu 💗</p>
 </section>
+
 </div>
 
+<!-- 🎵 NHẠC -->
+<audio id="bg-music" loop>
+  <source src="mot-ngay-hay-tram-nam.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-const gift=document.getElementById("gift");
-const intro=document.getElementById("intro");
-const content=document.getElementById("content");
-let opened=false;
+const gift = document.getElementById("gift");
+const intro = document.getElementById("intro");
+const content = document.getElementById("content");
+const music = document.getElementById("bg-music");
+
+let opened = false;
+let fadeInterval = null;
+
+function fadeInMusic(){
+  music.volume = 0;
+  music.play();
+
+  let vol = 0;
+  fadeInterval = setInterval(()=>{
+    vol += 0.02;          // tốc độ fade
+    if(vol >= 0.5){
+      vol = 0.5;
+      clearInterval(fadeInterval);
+    }
+    music.volume = vol;
+  }, 120); // ~3s fade in
+}
+
 function openGift(){
   if(opened) return;
-  opened=true;
+  opened = true;
+
+  fadeInMusic(); // 🎵 phát + fade in nhạc
+
   gift.classList.add("opening");
+
   setTimeout(()=>{
     intro.style.display="none";
     content.classList.add("show");
   },900);
 }
+
 gift.addEventListener("click",openGift);
 gift.addEventListener("keydown",e=>{
   if(e.key==="Enter"||e.key===" "){
-    e.preventDefault();openGift();
+    e.preventDefault();
+    openGift();
   }
 });
 </script>
