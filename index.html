@@ -35,22 +35,22 @@ body{
   position:fixed;
   bottom:-20px;
   font-size:18px;
-  opacity:.8;
+  opacity:.85;
   animation:floatUp linear infinite;
   pointer-events:none;
 }
 @keyframes floatUp{
-  from{transform:translateY(0) scale(.8);opacity:.9}
-  to{transform:translateY(-110vh) scale(1.2);opacity:0}
+  from{transform:translateY(0) scale(.85);opacity:.95}
+  to{transform:translateY(-110vh) scale(1.25);opacity:0}
 }
 
-/* ===== INTRO GIFT ===== */
+/* ===== INTRO ===== */
 .intro{
   text-align:center;
 }
 
 .gift{
-  width:340px; /* TO HƠN */
+  width:340px;
   aspect-ratio:1/1;
   margin:auto;
   position:relative;
@@ -105,32 +105,45 @@ body{
   to{transform:rotate(-35deg) translate(-20px,-10px)}
 }
 
+/* ✅ CÂN ẢNH NGAY GIỮA THÂN HỘP */
 .gift-img{
   position:absolute;
-  width:45%;
-  bottom:22%;
   left:50%;
-  transform:translateX(-50%);
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:45%;
   border-radius:14px;
   box-shadow:0 12px 24px rgba(0,0,0,.2);
 }
 
+/* intro text */
 .title{
-  margin-top:18px;
+  margin-top:22px;
   font-size:26px;
   font-weight:800;
+  line-height:1.4;
+}
+.subline{
+  margin:10px 0 0;
+  opacity:.8;
+  font-size:16px;
+  line-height:1.6;
+}
+.hint{
+  margin:10px 0 0;
+  font-size:16px;
+  line-height:1.6;
 }
 
 /* ===== CONTENT ===== */
 .content{
   display:none;
   width:92%;
-  max-width:760px;
+  max-width:780px;
   background:#fff;
   border-radius:26px;
-  padding:32px 28px;
+  padding:36px 34px;
   box-shadow:0 30px 80px rgba(0,0,0,.15);
-  text-align:center;
 }
 
 .reveal{
@@ -148,30 +161,40 @@ body{
   color:var(--pink);
   font-size:34px;
   font-weight:800;
+  text-align:center;
+  margin-bottom:20px;
 }
 
-.box-row{
+.content p{
+  text-align:center;
+  line-height:1.9;
+  font-size:17px;
+  margin:10px 0;
+}
+
+/* ===== FOOTER NOTE ===== */
+.footer-note{
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px dashed #ffd1e6;
   display:flex;
-  gap:16px;
-  margin-top:22px;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
   flex-wrap:wrap;
-  justify-content:center;
 }
 
-.box{
-  flex:1;
-  min-width:180px;
-  padding:16px;
-  border-radius:18px;
-  font-weight:600;
-  background:linear-gradient(135deg,#ffe3f0,#fff);
-  box-shadow:0 12px 24px rgba(0,0,0,.08);
+.footer-left p{
+  margin:8px 0;
+  font-size:16px;
+  line-height:1.9;
 }
 
-.footer{
-  margin-top:28px;
-  font-weight:700;
-  color:#ff4f8f;
+.footer-right{
+  font-weight:800;
+  color:var(--pink);
+  font-size:18px;
+  white-space:nowrap;
 }
 </style>
 </head>
@@ -179,43 +202,53 @@ body{
 <body>
 <div class="app">
 
-<!-- ===== INTRO ===== -->
+<!-- INTRO -->
 <section class="intro" id="intro">
-  <div class="gift" id="gift">
+  <div class="gift" id="gift" tabindex="0">
     <div class="gift-lid"></div>
+
     <div class="gift-box">
       <div class="ribbon-v"></div>
       <div class="ribbon-h"></div>
-      <img src="Cafeee.jpeg" class="gift-img">
+      <img src="Cafeee.jpeg" class="gift-img" alt="Cafeeee">
     </div>
   </div>
 
-  <div class="title">Pina dễ thương<br>Anh thương Pina lắm áaaa</div>
-  <p>Úm ba la cùng mở nhaaaa 🎁</p>
+  <div class="title">
+    Pina dễ thương<br>
+    Anh thương Pina lắm áaaa
+  </div>
+
+  <!-- ✅ DÒNG MỚI -->
+  <div class="subline">Anh có món quà nhỏ nhỏ tặng pina cute của anhh</div>
+
+  <div class="hint">Úm ba la cùng mở nhaaaa 🎁</div>
 </section>
 
-<!-- ===== CONTENT ===== -->
+<!-- CONTENT -->
 <section class="content" id="content">
   <div class="big-title reveal">Gửi Pina của anh 💕</div>
 
   <p class="reveal">
     Nhân dịp năm mới 2026<br>
     Anh chúc Pina luôn xinh xắn, đáng yêu,<br>
-    có nhiều sức khoẻ,<br>
+    có nhiều sức khỏe,<br>
     đạt được mọi ước nguyện,<br>
     và hạnh phúc bên gia đình,<br>
     bên anh dài dài 💖💖💖
   </p>
 
-  <h3 class="reveal">Pina muốn anh chở đi chơi Tết ở đâu taaa~</h3>
+  <div class="footer-note reveal">
+    <div class="footer-left">
+      <p>Anh thương Pina nhất trên đời 💗💗💗</p>
+      <p>Anh yêu Pinaa lắmmm 💗💗💗</p>
+      <p>Tụi mình cùng cố gắng về 1 nhà nhaaaaa 💗 💍</p>
+    </div>
 
-  <div class="box-row">
-    <div class="box reveal">🎀 Box1 nèee</div>
-    <div class="box reveal">🧁 Box2 thì saooo</div>
-    <div class="box reveal">🔒 Box3 hehe</div>
+    <div class="footer-right">
+      Anh yêu của Pinaaa
+    </div>
   </div>
-
-  <div class="footer reveal">🎉 Happy New Year 2026 🎉 💗</div>
 </section>
 
 </div>
@@ -226,52 +259,65 @@ body{
 </audio>
 
 <script>
-const gift=document.getElementById("gift");
-const intro=document.getElementById("intro");
-const content=document.getElementById("content");
-const music=document.getElementById("music");
+const gift = document.getElementById("gift");
+const intro = document.getElementById("intro");
+const content = document.getElementById("content");
+const music = document.getElementById("music");
 
-let opened=false;
+let opened = false;
 
 /* MUSIC FADE IN */
 function playMusic(){
-  music.volume=0;
+  music.volume = 0;
   music.play();
-  let v=0;
-  const fade=setInterval(()=>{
-    v+=0.02;
-    if(v>=0.5){v=0.5;clearInterval(fade)}
-    music.volume=v;
-  },120);
+  let v = 0;
+  const fade = setInterval(()=>{
+    v += 0.02;
+    if(v >= 0.5){
+      v = 0.5;
+      clearInterval(fade);
+    }
+    music.volume = v;
+  }, 120);
 }
 
 /* OPEN GIFT */
-gift.onclick=()=>{
+function openGift(){
   if(opened) return;
-  opened=true;
+  opened = true;
+
   playMusic();
   gift.classList.add("opening");
 
   setTimeout(()=>{
-    intro.style.display="none";
-    content.style.display="block";
-    const items=document.querySelectorAll(".reveal");
-    items.forEach((el,i)=>{
-      setTimeout(()=>el.classList.add("show"),i*350);
+    intro.style.display = "none";
+    content.style.display = "block";
+
+    const items = document.querySelectorAll(".reveal");
+    items.forEach((el, i)=>{
+      setTimeout(()=> el.classList.add("show"), i * 350);
     });
-  },900);
-};
+  }, 900);
+}
+
+gift.addEventListener("click", openGift);
+gift.addEventListener("keydown", e=>{
+  if(e.key === "Enter" || e.key === " "){
+    e.preventDefault();
+    openGift();
+  }
+});
 
 /* FLOATING HEARTS + STARS */
 setInterval(()=>{
-  const el=document.createElement("div");
-  el.className="floating";
-  el.style.left=Math.random()*100+"vw";
-  el.style.animationDuration=6+Math.random()*4+"s";
-  el.innerText=Math.random()>0.5?"💖":"✨";
+  const el = document.createElement("div");
+  el.className = "floating";
+  el.style.left = Math.random()*100 + "vw";
+  el.style.animationDuration = (6 + Math.random()*4) + "s";
+  el.innerText = Math.random() > 0.5 ? "💖" : "✨";
   document.body.appendChild(el);
-  setTimeout(()=>el.remove(),10000);
-},350);
+  setTimeout(()=> el.remove(), 10000);
+}, 350);
 </script>
 </body>
 </html>
