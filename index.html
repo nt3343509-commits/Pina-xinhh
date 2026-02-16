@@ -182,7 +182,13 @@ body{
   overflow:hidden;
 }
 
-/* top glow */
+/* ✅ FIX QUAN TRỌNG: pseudo-element không chặn click */
+.content::before,
+.content::after{
+  pointer-events:none;
+  z-index:0;
+}
+
 .content:before{
   content:"";
   position:absolute;
@@ -204,12 +210,17 @@ body{
   display:flex;
   gap: clamp(14px, 3vw, 28px);
   align-items:flex-start;
+  position:relative;
+  z-index:1;
 }
 .text-col{flex:1}
+
 .image-col{
   width: 260px;
   opacity:0;
   transform:scale(.88);
+  position:relative;
+  z-index:1;
 }
 .image-col.show{ animation:imageFade 900ms ease forwards; }
 @keyframes imageFade{ to{opacity:1;transform:scale(1)} }
@@ -220,7 +231,7 @@ body{
 }
 
 /* reveal */
-.reveal{ opacity:0; transform:translateY(14px); }
+.reveal{ opacity:0; transform:translateY(14px); position:relative; z-index:1; }
 .reveal.show{ animation:fadeUp .55s ease forwards; }
 @keyframes fadeUp{ to{opacity:1;transform:translateY(0)} }
 
@@ -230,15 +241,11 @@ body{
   font-size: var(--title);
   font-weight:800;
   margin-bottom: 10px;
-  position:relative;
-  z-index:1;
 }
 .text-col p{
   text-align:center;
   line-height:1.75;
   margin: 8px 0;
-  position:relative;
-  z-index:1;
 }
 .big-question{
   margin: 16px 0 10px;
@@ -255,8 +262,7 @@ body{
   gap: 12px;
   margin: 18px 0 0;
   justify-content:center;
-  position:relative;
-  z-index:1;
+  z-index:2; /* ✅ đẩy lên trên chắc chắn */
 }
 .box{
   padding: 14px;
@@ -348,7 +354,6 @@ textarea{
   justify-content:space-between;
   flex-wrap:wrap;
   gap: 10px;
-  position:relative;
   z-index:1;
 }
 .love-left p{margin:6px 0;font-weight:800}
@@ -376,6 +381,8 @@ textarea{
   border-radius: 18px;
   background: rgba(255,240,248,.7);
   border: 1px solid rgba(255,63,134,.18);
+  z-index:3;
+  position:relative;
 }
 .panel h3{
   margin:0 0 8px;
@@ -401,7 +408,6 @@ textarea{
 <div class="bg-dots"></div>
 <div class="app">
 
-<!-- PAGE 1 -->
 <section class="intro" id="intro">
   <div class="gift" id="gift" aria-label="Mở quà">
     <div class="gift-lid"></div>
@@ -416,7 +422,6 @@ textarea{
   <div class="tap-hint">🎁 <span>Chạm để mở quà nèeee</span> ✨</div>
 </section>
 
-<!-- PAGE 2 -->
 <section class="content" id="content">
   <div class="big-title reveal">Gửi Pí Na của anh 💕</div>
 
@@ -438,7 +443,7 @@ textarea{
     </div>
   </div>
 
-  <div class="box-row reveal">
+  <div class="box-row reveal" id="boxRow">
     <div class="box" id="boxLucky">
       <div class="label"><span>🧧 Lì xì may mắn</span><span>›</span></div>
       <small>Lắc điện thoại để đổi số tuỳ thích 💥💗</small>
@@ -454,7 +459,7 @@ textarea{
 
   <div class="panel reveal" id="panel" style="display:none;"></div>
 
-  <div class="love-footer reveal">
+  <div class="love-footer reveal" id="footer">
     <div class="love-left">
       <p>Anh thương Pí Na nhất trên đời 💗💗💗</p>
       <p>Chúc mừng năm mới nèeee 🎊</p>
@@ -466,15 +471,11 @@ textarea{
 
 </div>
 
-<!-- GIỮ NGUYÊN NHẠC -->
 <audio id="music" loop>
   <source src="mot-ngay-hay-tram-nam.mp3">
 </audio>
 
 <script>
-/* =========================
-   ELEMENTS
-========================= */
 const gift = document.getElementById("gift");
 const intro = document.getElementById("intro");
 const content = document.getElementById("content");
@@ -486,12 +487,12 @@ const boxWish  = document.getElementById("boxWish");
 const luckyPreview = document.getElementById("luckyPreview");
 const wishPreview  = document.getElementById("wishPreview");
 const panel = document.getElementById("panel");
+const boxRow = document.getElementById("boxRow");
+const footer = document.getElementById("footer");
 
 let opened = false;
 
-/* =========================
-   MUSIC (giữ nguyên)
-========================= */
+/* MUSIC */
 function playMusic(){
   try{
     music.volume = 0;
@@ -505,9 +506,7 @@ function playMusic(){
   }catch(e){}
 }
 
-/* =========================
-   HEART "BÙM CHÍU"
-========================= */
+/* HEART BOOM */
 function boomHearts(x=window.innerWidth/2, y=window.innerHeight/2, count=18){
   const wrap = document.createElement("div");
   wrap.className = "boom";
@@ -521,26 +520,18 @@ function boomHearts(x=window.innerWidth/2, y=window.innerHeight/2, count=18){
     p.textContent = chars[Math.floor(Math.random()*chars.length)];
     const angle = Math.random()*Math.PI*2;
     const dist = 70 + Math.random()*140;
-    const dx = Math.cos(angle)*dist;
-    const dy = Math.sin(angle)*dist;
-    p.style.setProperty("--x", dx+"px");
-    p.style.setProperty("--y", dy+"px");
+    p.style.setProperty("--x", (Math.cos(angle)*dist)+"px");
+    p.style.setProperty("--y", (Math.sin(angle)*dist)+"px");
     p.style.animationDelay = (Math.random()*120)+"ms";
     wrap.appendChild(p);
   }
   document.body.appendChild(wrap);
   setTimeout(()=>wrap.remove(), 1000);
 }
+function vibrate(ms=30){ if(navigator.vibrate) navigator.vibrate(ms); }
 
-function vibrate(ms=30){
-  if(navigator.vibrate) navigator.vibrate(ms);
-}
-
-/* =========================
-   TYPEWRITER (3–4s / dòng)
-========================= */
+/* TYPEWRITER */
 function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
-
 async function typeLine(el, totalMs = 3600){
   const full = el.dataset.fulltext ?? el.textContent;
   el.dataset.fulltext = full;
@@ -556,38 +547,27 @@ async function typeLine(el, totalMs = 3600){
 }
 
 async function playTypewriterSequence(){
-  // Order rõ ràng, không bị lộn
   const title = document.querySelector(".big-title.reveal");
-  const lines = Array.from(document.querySelectorAll(".text-col .reveal"));
+  // ✅ chỉ lấy các dòng p (tránh lấy big-question 2 lần)
+  const lines = Array.from(document.querySelectorAll(".text-col p.reveal"));
   const question = document.querySelector(".big-question.reveal");
-  const boxes = document.querySelector(".box-row.reveal");
-  const footer = document.querySelector(".love-footer.reveal");
 
-  // show ảnh sớm
   setTimeout(()=>imageCol.classList.add("show"), 900);
 
   if(title) await typeLine(title, 3600);
-
   for(const el of lines){
     await typeLine(el, 3600);
     await sleep(200);
   }
-
   if(question) await typeLine(question, 3600);
 
-  // boxes & footer: fade nhanh để user thao tác
-  if(boxes){
-    boxes.classList.add("show");
-    await sleep(500);
-  }
-  if(footer){
-    footer.classList.add("show");
-  }
+  // ✅ show boxes + footer để bấm được
+  boxRow.classList.add("show");
+  await sleep(250);
+  footer.classList.add("show");
 }
 
-/* =========================
-   OPEN GIFT
-========================= */
+/* OPEN GIFT */
 gift.onclick = (e) => {
   if(opened) return;
   opened = true;
@@ -604,14 +584,9 @@ gift.onclick = (e) => {
   }, 850);
 };
 
-/* =========================
-   BOX 1: LÌ XÌ MAY MẮN (+0805)
-========================= */
+/* LUCKY LIST (+0805) */
 const LUCKY_LIST = [
-  {
-    value:"0805",
-    meaning:"Ngày mình bắt đầu quen nhau — và anh muốn bên Pí Na mãi mãi, không chỉ một mùa Tết 💖"
-  },
+  { value:"0805", meaning:"Ngày mình bắt đầu quen nhau — và anh muốn bên Pí Na mãi mãi, không chỉ một mùa Tết 💖" },
   { value:"68",   meaning:"Lộc Phát — Năm nay tài lộc gõ cửa, còn anh thì ở lại bên Pí Na 💗" },
   { value:"86",   meaning:"Phát Lộc — Làm gì cũng thuận, yêu gì cũng bền nha 🌸" },
   { value:"99",   meaning:"Trường Cửu — Không chỉ năm nay, mà là dài lâu 💞" },
@@ -628,14 +603,11 @@ function pickLucky(){
   localStorage.setItem(LS_LUCKY, lucky);
   return item;
 }
-
 function renderLuckyPreview(){
   if(lucky){
-    const item = LUCKY_LIST.find(x=>x.value===lucky) || {value:lucky, meaning:""};
+    const item = LUCKY_LIST.find(x=>x.value===lucky) || {value:lucky};
     luckyPreview.textContent = `Số hiện tại: ${item.value} 💗`;
-  }else{
-    luckyPreview.textContent = "";
-  }
+  }else luckyPreview.textContent = "";
 }
 renderLuckyPreview();
 
@@ -657,7 +629,6 @@ function showLuckyPanel(forceNew=false){
 
   const btnReceive = document.getElementById("btnReceive");
   btnReceive.onclick = () => {
-    // 0805: bùm chíu hơn chút 😌
     const extra = (item.value === "0805") ? 44 : 28;
     vibrate(45);
     boomHearts(window.innerWidth/2, window.innerHeight/2, extra);
@@ -666,11 +637,10 @@ function showLuckyPanel(forceNew=false){
     btnReceive.style.opacity = .95;
   };
 
-  const btnShakeOn = document.getElementById("btnShakeOn");
-  btnShakeOn.onclick = async () => {
+  document.getElementById("btnShakeOn").onclick = async () => {
     const ok = await enableShake();
-    btnShakeOn.textContent = ok ? "Đã bật lắc ✅" : "Không bật được 🥺";
     vibrate(20);
+    document.getElementById("btnShakeOn").textContent = ok ? "Đã bật lắc ✅" : "Không bật được 🥺";
   };
 }
 
@@ -680,10 +650,19 @@ boxLucky.onclick = (e) => {
   boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 16);
 };
 
-/* =========================
-   BOX 2: ĐIỀU ƯỚC (textarea unlimited)
-========================= */
+/* WISH */
 const LS_WISH = "pina_wish";
+
+function escapeHTML(str){
+  return str.replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+  }[m]));
+}
+function renderWishPreview(){
+  const saved = (localStorage.getItem(LS_WISH) || "").trim();
+  wishPreview.textContent = saved ? "Có điều ước đã lưu 💗" : "";
+}
+renderWishPreview();
 
 function showWishPanel(){
   const saved = localStorage.getItem(LS_WISH) || "";
@@ -725,8 +704,9 @@ function showWishPanel(){
       input.focus();
       return;
     }
+
     localStorage.setItem(LS_WISH, wish);
-    wishPreview.textContent = "Đã lưu điều ước 💗";
+    renderWishPreview();
 
     vibrate(55);
     boomHearts(window.innerWidth/2, window.innerHeight/2, 30);
@@ -773,15 +753,7 @@ boxWish.onclick = (e) => {
   boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 16);
 };
 
-function renderWishPreview(){
-  const saved = (localStorage.getItem(LS_WISH) || "").trim();
-  wishPreview.textContent = saved ? "Có điều ước đã lưu 💗" : "";
-}
-renderWishPreview();
-
-/* =========================
-   SHAKE (DeviceMotion)
-========================= */
+/* SHAKE */
 let shakeEnabled = false;
 let lastShakeTime = 0;
 
@@ -800,18 +772,15 @@ function handleMotion(e){
 
     const panelText = (panel.innerText || "").toLowerCase();
 
-    // Lắc trong panel lì xì: đổi số tuỳ thích
     if(panel.style.display === "block" && panelText.includes("lì xì")){
       const item = pickLucky();
       renderLuckyPreview();
       vibrate(30);
-      // 0805: bùm chíu hơn
       boomHearts(window.innerWidth/2, window.innerHeight/2, item.value === "0805" ? 40 : 18);
       showLuckyPanel(false);
       return;
     }
 
-    // Lắc trong panel điều ước: thả sao
     if(panel.style.display === "block" && panelText.includes("điều ước")){
       vibrate(20);
       boomHearts(window.innerWidth/2, window.innerHeight/2, 14);
@@ -835,18 +804,7 @@ async function enableShake(){
   }
 }
 
-/* =========================
-   HELPERS
-========================= */
-function escapeHTML(str){
-  return str.replace(/[&<>"']/g, (m)=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
-  }[m]));
-}
-
-/* =========================
-   FLOATING
-========================= */
+/* FLOATING */
 const floatChars = ["💖","✨","🧧","🌸","💗","🎊"];
 setInterval(()=>{
   const el=document.createElement("div");
