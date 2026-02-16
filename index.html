@@ -42,7 +42,7 @@ body{
   touch-action: manipulation;
 }
 
-/* subtle Tết vibe: lantern glow dots */
+/* subtle Tết vibe */
 .bg-dots{
   position:fixed; inset:0;
   pointer-events:none;
@@ -166,7 +166,7 @@ body{
   border-radius: 999px;
   background: rgba(255,255,255,.72);
   box-shadow: 0 10px 20px rgba(0,0,0,.08);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 /* ===== PAGE 2 ===== */
@@ -182,7 +182,7 @@ body{
   overflow:hidden;
 }
 
-/* top ribbon */
+/* top glow */
 .content:before{
   content:"";
   position:absolute;
@@ -240,12 +240,11 @@ body{
   position:relative;
   z-index:1;
 }
-
 .big-question{
   margin: 16px 0 10px;
   text-align:center;
   font-size: var(--sub);
-  font-weight:800;
+  font-weight:900;
   color:#ff2f7a;
 }
 
@@ -264,7 +263,7 @@ body{
   background: linear-gradient(180deg, #fff3f8, #ffe9f3);
   border-radius: 18px;
   text-align:left;
-  font-weight:800;
+  font-weight:900;
   cursor:pointer;
   border: 1px solid rgba(255,63,134,.18);
   box-shadow: 0 14px 26px rgba(0,0,0,.08);
@@ -281,14 +280,14 @@ body{
 }
 .box small{
   display:block;
-  font-weight:700;
+  font-weight:800;
   opacity:.82;
   margin-top:6px;
   line-height:1.35;
 }
 .box-result{
   margin-top: 12px;
-  font-weight:800;
+  font-weight:900;
   color: var(--pink);
   line-height:1.45;
 }
@@ -300,7 +299,7 @@ body{
   border:none;
   border-radius: 16px;
   font-family:inherit;
-  font-weight:800;
+  font-weight:900;
   cursor:pointer;
   background: linear-gradient(90deg, var(--red), var(--pink));
   color:white;
@@ -315,7 +314,7 @@ body{
   border:1px solid rgba(255,63,134,.22);
   background: rgba(255,255,255,.8);
   font-family:inherit;
-  font-weight:800;
+  font-weight:900;
   cursor:pointer;
 }
 
@@ -335,7 +334,7 @@ textarea{
 
 .helper{
   margin-top:10px;
-  font-weight:700;
+  font-weight:800;
   opacity:.85;
   text-align:center;
 }
@@ -352,7 +351,7 @@ textarea{
   position:relative;
   z-index:1;
 }
-.love-left p{margin:6px 0;font-weight:700}
+.love-left p{margin:6px 0;font-weight:800}
 .love-right{font-weight:900;color:var(--pink)}
 
 /* ===== MOBILE ===== */
@@ -370,7 +369,7 @@ textarea{
   .box-row{ grid-template-columns: 1fr; }
 }
 
-/* modal-ish result area */
+/* panel */
 .panel{
   margin-top: 12px;
   padding: 14px;
@@ -392,7 +391,7 @@ textarea{
 }
 .panel .meaning{
   text-align:center;
-  font-weight:800;
+  font-weight:900;
   line-height:1.4;
 }
 </style>
@@ -442,7 +441,7 @@ textarea{
   <div class="box-row reveal">
     <div class="box" id="boxLucky">
       <div class="label"><span>🧧 Lì xì may mắn</span><span>›</span></div>
-      <small>Lắc điện thoại để đổi số (tối đa 3 lần) 💥💗</small>
+      <small>Lắc điện thoại để đổi số tuỳ thích 💥💗</small>
       <div class="box-result" id="luckyPreview"></div>
     </div>
 
@@ -467,6 +466,7 @@ textarea{
 
 </div>
 
+<!-- GIỮ NGUYÊN NHẠC -->
 <audio id="music" loop>
   <source src="mot-ngay-hay-tram-nam.mp3">
 </audio>
@@ -490,7 +490,7 @@ const panel = document.getElementById("panel");
 let opened = false;
 
 /* =========================
-   MUSIC
+   MUSIC (giữ nguyên)
 ========================= */
 function playMusic(){
   try{
@@ -537,14 +537,52 @@ function vibrate(ms=30){
 }
 
 /* =========================
-   REVEAL (faster, mobile-friendly)
+   TYPEWRITER (3–4s / dòng)
 ========================= */
-function revealAll(){
-  const els = Array.from(document.querySelectorAll(".reveal"));
-  els.forEach((el,i)=>{
-    setTimeout(()=>el.classList.add("show"), i*260);
-  });
-  setTimeout(()=>imageCol.classList.add("show"), 520);
+function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+
+async function typeLine(el, totalMs = 3600){
+  const full = el.dataset.fulltext ?? el.textContent;
+  el.dataset.fulltext = full;
+  el.textContent = "";
+  el.classList.add("show");
+
+  const n = Math.max(1, full.length);
+  const step = Math.max(15, Math.floor(totalMs / n));
+  for(let i=1;i<=n;i++){
+    el.textContent = full.slice(0,i);
+    await sleep(step);
+  }
+}
+
+async function playTypewriterSequence(){
+  // Order rõ ràng, không bị lộn
+  const title = document.querySelector(".big-title.reveal");
+  const lines = Array.from(document.querySelectorAll(".text-col .reveal"));
+  const question = document.querySelector(".big-question.reveal");
+  const boxes = document.querySelector(".box-row.reveal");
+  const footer = document.querySelector(".love-footer.reveal");
+
+  // show ảnh sớm
+  setTimeout(()=>imageCol.classList.add("show"), 900);
+
+  if(title) await typeLine(title, 3600);
+
+  for(const el of lines){
+    await typeLine(el, 3600);
+    await sleep(200);
+  }
+
+  if(question) await typeLine(question, 3600);
+
+  // boxes & footer: fade nhanh để user thao tác
+  if(boxes){
+    boxes.classList.add("show");
+    await sleep(500);
+  }
+  if(footer){
+    footer.classList.add("show");
+  }
 }
 
 /* =========================
@@ -557,19 +595,23 @@ gift.onclick = (e) => {
   playMusic();
   gift.classList.add("opening");
   vibrate(25);
-  boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 20);
+  boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 22);
 
   setTimeout(()=>{
     intro.style.display="none";
     content.style.display="block";
-    revealAll();
+    playTypewriterSequence();
   }, 850);
 };
 
 /* =========================
-   BOX 1: LÌ XÌ MAY MẮN
+   BOX 1: LÌ XÌ MAY MẮN (+0805)
 ========================= */
 const LUCKY_LIST = [
+  {
+    value:"0805",
+    meaning:"Ngày mình bắt đầu quen nhau — và anh muốn bên Pí Na mãi mãi, không chỉ một mùa Tết 💖"
+  },
   { value:"68",   meaning:"Lộc Phát — Năm nay tài lộc gõ cửa, còn anh thì ở lại bên Pí Na 💗" },
   { value:"86",   meaning:"Phát Lộc — Làm gì cũng thuận, yêu gì cũng bền nha 🌸" },
   { value:"99",   meaning:"Trường Cửu — Không chỉ năm nay, mà là dài lâu 💞" },
@@ -578,10 +620,7 @@ const LUCKY_LIST = [
 ];
 
 const LS_LUCKY = "pina_lucky";
-const LS_SHAKES = "pina_shakes";
-
 let lucky = localStorage.getItem(LS_LUCKY) || "";
-let shakeCount = Number(localStorage.getItem(LS_SHAKES) || "0");
 
 function pickLucky(){
   const item = LUCKY_LIST[Math.floor(Math.random()*LUCKY_LIST.length)];
@@ -601,40 +640,27 @@ function renderLuckyPreview(){
 renderLuckyPreview();
 
 function showLuckyPanel(forceNew=false){
-  if(forceNew || !lucky){
-    const item = pickLucky();
-    renderLuckyPreview();
-    panel.style.display="block";
-    panel.innerHTML = `
-      <h3>🧧 Lì xì may mắn của Pí Na</h3>
-      <div class="big">${item.value}</div>
-      <div class="meaning">${item.meaning}</div>
-      <div style="height:12px"></div>
-      <button class="btn" id="btnReceive">Nhận lì xì của anh 💥</button>
-      <div style="height:10px"></div>
-      <button class="btn-ghost" id="btnShakeOn">Bật chế độ lắc 🎛️</button>
-      <div class="helper" id="shakeHint">Lắc để đổi số (tối đa 3 lần). Hiện tại: <b>${shakeCount}/3</b></div>
-    `;
-  }else{
-    const item = LUCKY_LIST.find(x=>x.value===lucky) || {value:lucky, meaning:""};
-    panel.style.display="block";
-    panel.innerHTML = `
-      <h3>🧧 Lì xì may mắn của Pí Na</h3>
-      <div class="big">${item.value}</div>
-      <div class="meaning">${item.meaning}</div>
-      <div style="height:12px"></div>
-      <button class="btn" id="btnReceive">Nhận lì xì của anh 💥</button>
-      <div style="height:10px"></div>
-      <button class="btn-ghost" id="btnShakeOn">Bật chế độ lắc 🎛️</button>
-      <div class="helper" id="shakeHint">Lắc để đổi số (tối đa 3 lần). Hiện tại: <b>${shakeCount}/3</b></div>
-    `;
-  }
+  const item = (forceNew || !lucky) ? pickLucky() : (LUCKY_LIST.find(x=>x.value===lucky) || pickLucky());
+  renderLuckyPreview();
+
+  panel.style.display="block";
+  panel.innerHTML = `
+    <h3>🧧 Lì xì may mắn của Pí Na</h3>
+    <div class="big">${item.value}</div>
+    <div class="meaning">${item.meaning}</div>
+    <div style="height:12px"></div>
+    <button class="btn" id="btnReceive">Nhận lì xì của anh 💥</button>
+    <div style="height:10px"></div>
+    <button class="btn-ghost" id="btnShakeOn">Bật chế độ lắc 🎛️</button>
+    <div class="helper">Lắc nhẹ để đổi số tuỳ thích nha 💗</div>
+  `;
 
   const btnReceive = document.getElementById("btnReceive");
   btnReceive.onclick = () => {
-    vibrate(40);
-    boomHearts(window.innerWidth/2, window.innerHeight/2, 26);
-    // Bạn có thể sửa dòng này thành "quà thật sẽ trao trực tiếp" hoặc voucher tuỳ ý
+    // 0805: bùm chíu hơn chút 😌
+    const extra = (item.value === "0805") ? 44 : 28;
+    vibrate(45);
+    boomHearts(window.innerWidth/2, window.innerHeight/2, extra);
     btnReceive.textContent = "Anh ghi nợ lì xì thật — trao tận tay Pí Na nha 💗";
     btnReceive.disabled = true;
     btnReceive.style.opacity = .95;
@@ -651,7 +677,7 @@ function showLuckyPanel(forceNew=false){
 boxLucky.onclick = (e) => {
   showLuckyPanel(false);
   vibrate(18);
-  boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 14);
+  boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 16);
 };
 
 /* =========================
@@ -681,7 +707,6 @@ function showWishPanel(){
   const input = document.getElementById("wishInput");
   input.value = saved;
 
-  // auto resize
   const resize = () => {
     input.style.height = "auto";
     input.style.height = Math.min(input.scrollHeight, 360) + "px";
@@ -703,8 +728,8 @@ function showWishPanel(){
     localStorage.setItem(LS_WISH, wish);
     wishPreview.textContent = "Đã lưu điều ước 💗";
 
-    vibrate(50);
-    boomHearts(window.innerWidth/2, window.innerHeight/2, 28);
+    vibrate(55);
+    boomHearts(window.innerWidth/2, window.innerHeight/2, 30);
 
     panel.innerHTML = `
       <h3>✅ Anh đã nhận nhiệm vụ!</h3>
@@ -712,7 +737,7 @@ function showWishPanel(){
         Điều ước của Pí Na là:
       </div>
       <div class="panel" style="margin-top:10px;">
-        <div style="font-weight:800; line-height:1.55;">${escapeHTML(wish).replace(/\n/g,"<br>")}</div>
+        <div style="font-weight:900; line-height:1.55;">${escapeHTML(wish).replace(/\n/g,"<br>")}</div>
       </div>
       <div class="meaning" style="margin-top:12px; text-align:center; font-weight:900;">
         Anh nghiêm túc thực hiện. Pí Na yên tâm nha 💗
@@ -745,24 +770,21 @@ function showWishPanel(){
 boxWish.onclick = (e) => {
   showWishPanel();
   vibrate(18);
-  boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 14);
+  boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 16);
 };
 
 function renderWishPreview(){
   const saved = (localStorage.getItem(LS_WISH) || "").trim();
-  if(saved) wishPreview.textContent = "Có điều ước đã lưu 💗";
-  else wishPreview.textContent = "";
+  wishPreview.textContent = saved ? "Có điều ước đã lưu 💗" : "";
 }
 renderWishPreview();
 
 /* =========================
    SHAKE (DeviceMotion)
-   - iPhone needs permission after user gesture
 ========================= */
 let shakeEnabled = false;
 let lastShakeTime = 0;
 
-// simple shake detector
 function handleMotion(e){
   if(!shakeEnabled) return;
   const acc = e.accelerationIncludingGravity;
@@ -771,39 +793,25 @@ function handleMotion(e){
   const x = acc.x || 0, y = acc.y || 0, z = acc.z || 0;
   const mag = Math.sqrt(x*x + y*y + z*z);
 
-  // threshold: tune for "lắc nhẹ"
   if(mag > 18){
     const now = Date.now();
-    if(now - lastShakeTime < 900) return; // cooldown
+    if(now - lastShakeTime < 900) return;
     lastShakeTime = now;
 
-    // decide action based on what's open
     const panelText = (panel.innerText || "").toLowerCase();
 
-    // If Lucky panel visible -> reroll (max 3)
+    // Lắc trong panel lì xì: đổi số tuỳ thích
     if(panel.style.display === "block" && panelText.includes("lì xì")){
-      if(shakeCount >= 3){
-        vibrate(20);
-        boomHearts(window.innerWidth/2, window.innerHeight/2, 10);
-        const hint = document.getElementById("shakeHint");
-        if(hint) hint.innerHTML = `Pí Na lắc đủ <b>3/3</b> rồi đó 😚`;
-        return;
-      }
-      shakeCount += 1;
-      localStorage.setItem(LS_SHAKES, String(shakeCount));
       const item = pickLucky();
       renderLuckyPreview();
       vibrate(30);
-      boomHearts(window.innerWidth/2, window.innerHeight/2, 18);
-
-      // refresh panel contents quickly
+      // 0805: bùm chíu hơn
+      boomHearts(window.innerWidth/2, window.innerHeight/2, item.value === "0805" ? 40 : 18);
       showLuckyPanel(false);
-      const hint = document.getElementById("shakeHint");
-      if(hint) hint.innerHTML = `Lắc để đổi số (tối đa 3 lần). Hiện tại: <b>${shakeCount}/3</b>`;
       return;
     }
 
-    // If Wish result visible -> sprinkle stars
+    // Lắc trong panel điều ước: thả sao
     if(panel.style.display === "block" && panelText.includes("điều ước")){
       vibrate(20);
       boomHearts(window.innerWidth/2, window.innerHeight/2, 14);
@@ -813,7 +821,6 @@ function handleMotion(e){
 
 async function enableShake(){
   try{
-    // iOS 13+ needs permission
     if(typeof DeviceMotionEvent !== "undefined" && typeof DeviceMotionEvent.requestPermission === "function"){
       const res = await DeviceMotionEvent.requestPermission();
       if(res !== "granted") return false;
@@ -838,7 +845,7 @@ function escapeHTML(str){
 }
 
 /* =========================
-   FLOATING (more Tết vibe)
+   FLOATING
 ========================= */
 const floatChars = ["💖","✨","🧧","🌸","💗","🎊"];
 setInterval(()=>{
@@ -851,14 +858,6 @@ setInterval(()=>{
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),10000);
 },420);
-
-/* =========================
-   INIT SHAKE COUNT PREVIEW
-========================= */
-if(!localStorage.getItem(LS_SHAKES)){
-  localStorage.setItem(LS_SHAKES, "0");
-}
-shakeCount = Number(localStorage.getItem(LS_SHAKES) || "0");
 </script>
 </body>
 </html>
