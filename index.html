@@ -419,7 +419,7 @@ textarea{
   </div>
 
   <h2>Pí Na dễ thương<br>Anh thương Pí Na lắm áaaa</h2>
-  <p>Anh có món quà Tết nhỏ nhỏ, nhưng đầy yêu thương 💗</p>
+  <p>Anh có món quà Tết nhỏ nhỏ tặng Pí Naa 💗</p>
   <div class="tap-hint">🎁 <span>Chạm để mở quà nèeee</span> ✨</div>
 </section>
 
@@ -430,9 +430,9 @@ textarea{
     <div class="text-col">
       <p class="reveal">Nhân dịp <b>Tết 2026</b> 🎊</p>
       <p class="reveal">Anh chúc Pí Na luôn xinh xắn, đáng yêu 🌸</p>
-      <p class="reveal">luôn khỏe mạnh, vui vẻ và bình an 🧧</p>
+      <p class="reveal">luôn khỏe mạnh, vui vẻ và bình an bên gia đình 🧧</p>
       <p class="reveal">điều gì cũng hanh thông, ước gì cũng thành ✨</p>
-      <p class="reveal">và… năm nay mình thương nhau nhiều hơn năm trước nữa nha 💖</p>
+      <p class="reveal">và… năm mới mình ở cạnh nhau, yêu thương nhau nhiều hơn nữa nha  💖</p>
 
       <div class="big-question reveal">
         Pí Na muốn mở món nào trước nèeee? 💗
@@ -464,7 +464,7 @@ textarea{
   <div class="love-footer reveal" id="footer">
     <div class="love-left">
       <p>Anh thương Pí Na nhất trên đời 💗💗💗</p>
-      <p>Chúc mừng năm mới nèeee 🎊</p>
+      <p>Chúc mừng năm con Ngựaaaaaaa 🎊</p>
       <p>Tụi mình cùng cố gắng về 1 nhà nhaaaaa 💍</p>
     </div>
     <div class="love-right">Anh yêu của Pí Naaa</div>
@@ -595,12 +595,11 @@ gift.onclick = (e) => {
 
 /* LUCKY LIST (+0805) */
 const LUCKY_LIST = [
-  { value:"0805", meaning:"Ngày mình bắt đầu quen nhau — và anh muốn bên Pí Na mãi mãi, không chỉ một mùa Tết 💖" },
-  { value:"68",   meaning:"Lộc Phát — Năm nay tài lộc gõ cửa, còn anh thì ở lại bên Pí Na 💗" },
-  { value:"86",   meaning:"Phát Lộc — Làm gì cũng thuận, yêu gì cũng bền nha 🌸" },
-  { value:"99",   meaning:"Trường Cửu — Không chỉ năm nay, mà là dài lâu 💞" },
-  { value:"1314", meaning:"Một đời một kiếp — Anh chọn yêu Pí Na không có thời hạn 💘" },
-  { value:"2026", meaning:"Năm của tụi mình — Mình thương nhau rực rỡ trong năm mới ✨" }
+  { value:"0805", meaning:"Ngày mình bên nhau — và anh sẽ ở cạnh bảo vệ Pí Na thiệt lâuuuu 💖" },
+  { value:"86",   meaning:"Phát Lộc — Làm gì cũng thuận, vạn sự như ýy 🌸" },
+  { value:"99",   meaning:"Trường Cửu — Trọn vẹn một đời 💞" },
+  { value:"1314", meaning:"Một đời một kiếp cùng nhauuu 💘" },
+  { value:"2026", meaning:"Năm của tụi mình — Mong tụi mình đạt được mọi thứ trong năm mới ✨" }
 ];
 
 const LS_LUCKY = "pina_lucky";
@@ -641,7 +640,7 @@ function showLuckyPanel(forceNew=false){
     const extra = (item.value === "0805") ? 44 : 28;
     vibrate(45);
     boomHearts(window.innerWidth/2, window.innerHeight/2, extra);
-    btnReceive.textContent = "Anh ghi nợ lì xì thật — trao tận tay Pí Na nha 💗";
+    btnReceive.textContent = "Anh ghi nợ lì xì òiii — trao tận tay Pí Na nha 💗";
     btnReceive.disabled = true;
     btnReceive.style.opacity = .95;
   };
@@ -680,17 +679,17 @@ function showWishPanel(){
   panel.innerHTML = `
     <h3>🌠 Điều ước của Pí Na</h3>
     <div class="meaning" style="text-align:center; font-weight:900; margin-bottom:10px; color:#ff2f7a;">
-      “Điều ước của Pí Na muốn anh thực hiện năm nay là gì?”
+      “Điều ước của Pí Naaa”
     </div>
 
-    <textarea id="wishInput" placeholder="Pí Na cứ gõ thoải mái nha… (Telex cũng ok) 💗"
+    <textarea id="wishInput" placeholder="Nhập zô đây nèee 💗"
       autocomplete="off" autocapitalize="sentences" spellcheck="false"></textarea>
 
     <div style="height:12px"></div>
     <button class="btn" id="btnSendWish">Gửi điều ước ✨</button>
     <div style="height:10px"></div>
     <button class="btn-ghost" id="btnClearWish">Xoá để viết lại</button>
-    <div class="helper">Tip: Gửi xong anh sẽ “đóng dấu” nhận nhiệm vụ nha 💖</div>
+    <div class="helper">Tip: Bí mật của 2 tụi mình nhaaaa 💖</div>
   `;
 
   const input = document.getElementById("wishInput");
@@ -830,3 +829,4 @@ setInterval(()=>{
 </script>
 </body>
 </html>
+
