@@ -16,9 +16,11 @@
   --bg2:#ffe6f1;
   --card:#ffffff;
   --shadow:0 28px 80px rgba(0,0,0,.16);
+
   --pad: clamp(14px, 4vw, 22px);
   --radius: 22px;
   --btnH: 52px;
+
   --text: clamp(15px, 3.8vw, 18px);
   --title: clamp(24px, 6vw, 34px);
   --sub: clamp(17px, 4.5vw, 22px);
@@ -31,16 +33,24 @@ body{
   font-family:"Baloo 2",sans-serif;
   font-size: var(--text);
   color:#2a2230;
-  background: radial-gradient(circle at top, var(--bg1), var(--bg2));
+  background:
+    radial-gradient(900px 420px at 15% 0%, #ffffff 0%, rgba(255,255,255,.0) 60%),
+    radial-gradient(900px 420px at 85% 0%, #ffffff 0%, rgba(255,255,255,.0) 60%),
+    radial-gradient(circle at top, var(--bg1), var(--bg2));
   overflow-x:hidden;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
+/* subtle Tết vibe */
 .bg-dots{
   position:fixed; inset:0;
   pointer-events:none;
-  background: radial-gradient(circle at 20% 12%, rgba(255,204,77,.22), transparent 28%);
+  background:
+    radial-gradient(circle at 20% 12%, rgba(255,204,77,.22), transparent 28%),
+    radial-gradient(circle at 80% 18%, rgba(255,63,134,.18), transparent 30%),
+    radial-gradient(circle at 50% 0%, rgba(255,42,42,.10), transparent 38%);
+  filter: blur(0.2px);
   opacity:.85;
 }
 
@@ -52,18 +62,36 @@ body{
   justify-content:center;
 }
 
-/* FLOATING EMOJI */
+/* FLOATING */
 .floating{
-  position:fixed; bottom:-20px; font-size:18px; opacity:.9;
-  animation:floatUp linear infinite; pointer-events:none;
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  opacity:.9;
+  animation:floatUp linear infinite;
+  pointer-events:none;
+  filter: drop-shadow(0 10px 12px rgba(0,0,0,.10));
 }
-@keyframes floatUp{ to{transform:translateY(-110vh);opacity:0} }
+@keyframes floatUp{
+  to{transform:translateY(-110vh);opacity:0}
+}
 
-/* BOOM EFFECT */
-.boom{ position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); pointer-events:none; z-index:9999; }
+/* HEART CONFETTI "BÙM CHÍU" */
+.boom{
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:9999;
+}
 .boom .p{
-  position:absolute; left:0; top:0; transform:translate(-50%,-50%);
-  font-size: 18px; opacity:0; animation:pop 900ms ease forwards;
+  position:absolute;
+  left:0; top:0;
+  transform:translate(-50%,-50%);
+  font-size: 18px;
+  opacity:0;
+  animation:pop 900ms ease forwards;
 }
 @keyframes pop{
   0%{opacity:0; transform:translate(-50%,-50%) scale(.6)}
@@ -71,46 +99,309 @@ body{
   100%{opacity:0; transform:translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.3)}
 }
 
-/* BOX GIFT */
+/* ===== PAGE 1 ===== */
 .intro{text-align:center; width:min(520px, 100%)}
-.gift{ width:min(320px, 86vw); aspect-ratio:1/1; position:relative; cursor:pointer; margin: 10px auto 6px; }
-.gift-box{ position:absolute; bottom:0; width:100%; height:70%; background:#ffd1e6; border-radius:26px; }
-.ribbon-v{ position:absolute; width:18%; height:100%; background:linear-gradient(180deg, var(--red), var(--pink)); left:50%; transform:translateX(-50%); border-radius: 18px; }
-.ribbon-h{ position:absolute; height:14%; width:100%; background:linear-gradient(90deg, var(--red), var(--pink)); top:43%; border-radius: 18px; }
-.gift-lid{ position:absolute; top:0; width:100%; height:28%; background:#ffddee; border-radius:26px; transform-origin:15% 100%; transition: .5s; }
-.gift.opening .gift-lid{ transform:rotate(-35deg) translate(-20px,-10px); }
+.intro h2{
+  margin: 14px 0 6px;
+  font-size: clamp(20px, 5.5vw, 28px);
+  line-height:1.25;
+}
+.intro p{ margin:6px 0; opacity:.92 }
 
-/* CONTENT PAGE */
-.content{ display:none; width:100%; max-width:920px; background: var(--card); border-radius: var(--radius); padding: var(--pad); box-shadow: var(--shadow); position:relative; overflow:hidden; }
-.content-inner{ display:flex; gap: 20px; align-items:flex-start; position:relative; z-index:1; }
+.gift{
+  width:min(320px, 86vw);
+  aspect-ratio:1/1;
+  position:relative;
+  cursor:pointer;
+  margin: 10px auto 6px;
+  user-select:none;
+}
+.gift-box{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:70%;
+  background:#ffd1e6;
+  border-radius:26px;
+  box-shadow: 0 22px 40px rgba(0,0,0,.12);
+}
+.ribbon-v{
+  position:absolute;
+  width:18%;
+  height:100%;
+  background:linear-gradient(180deg, var(--red), var(--pink));
+  left:50%;
+  transform:translateX(-50%);
+  border-radius: 18px;
+}
+.ribbon-h{
+  position:absolute;
+  height:14%;
+  width:100%;
+  background:linear-gradient(90deg, var(--red), var(--pink));
+  top:43%;
+  border-radius: 18px;
+}
+.gift-lid{
+  position:absolute;
+  top:0;
+  width:100%;
+  height:28%;
+  background:#ffddee;
+  border-radius:26px;
+  transform-origin:15% 100%;
+  box-shadow: 0 16px 26px rgba(0,0,0,.10);
+}
+.gift.opening .gift-lid{ animation:openLid .7s forwards; }
+@keyframes openLid{
+  to{transform:rotate(-35deg) translate(-20px,-10px)}
+}
+.tap-hint{
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  justify-content:center;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 10px 20px rgba(0,0,0,.08);
+  font-weight: 800;
+}
+
+/* ===== PAGE 2 ===== */
+.content{
+  display:none;
+  width:100%;
+  max-width:920px;
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: clamp(16px, 4vw, 28px);
+  box-shadow: var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+/* pseudo-element không chặn click */
+.content::before,
+.content::after{
+  pointer-events:none;
+  z-index:0;
+}
+
+.content:before{
+  content:"";
+  position:absolute;
+  left:-60px; top:-60px;
+  width:220px; height:220px;
+  background: radial-gradient(circle at 40% 40%, rgba(255,204,77,.45), rgba(255,63,134,.10) 58%, transparent 70%);
+  transform: rotate(18deg);
+}
+.content:after{
+  content:"";
+  position:absolute;
+  right:-70px; top:-70px;
+  width:240px; height:240px;
+  background: radial-gradient(circle at 35% 35%, rgba(255,42,42,.30), rgba(255,63,134,.08) 60%, transparent 72%);
+  transform: rotate(-18deg);
+}
+
+.content-inner{
+  display:flex;
+  gap: clamp(14px, 3vw, 28px);
+  align-items:flex-start;
+  position:relative;
+  z-index:1;
+}
 .text-col{flex:1}
-.image-col{ width: 260px; opacity:0; transform:scale(.88); transition: .9s; }
-.image-col.show{ opacity:1; transform:scale(1); }
-.image-col img{ width:100%; border-radius:18px; box-shadow:0 18px 36px rgba(0,0,0,.2); }
 
-.reveal{ opacity:0; transform:translateY(14px); }
-.reveal.show{ opacity:1; transform:translateY(0); transition: .5s; }
+.image-col{
+  width: 260px;
+  opacity:0;
+  transform:scale(.88);
+  position:relative;
+  z-index:1;
+}
+.image-col.show{ animation:imageFade 900ms ease forwards; }
+@keyframes imageFade{ to{opacity:1;transform:scale(1)} }
+.image-col img{
+  width:100%;
+  border-radius:18px;
+  box-shadow:0 18px 36px rgba(0,0,0,.2);
+}
 
-.big-title{ text-align:center; color:var(--pink); font-size: var(--title); font-weight:800; margin-bottom: 10px; }
-.text-col p{ text-align:center; line-height:1.75; margin: 8px 0; }
-.big-question{ margin: 16px 0 10px; text-align:center; font-size: var(--sub); font-weight:900; color:#ff2f7a; }
+/* reveal */
+.reveal{ opacity:0; transform:translateY(14px); position:relative; z-index:1; }
+.reveal.show{ animation:fadeUp .55s ease forwards; }
+@keyframes fadeUp{ to{opacity:1;transform:translateY(0)} }
 
-/* BOX INTERACTIVE */
-.box-row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 0; }
-.box{ padding: 14px; background: linear-gradient(180deg, #fff3f8, #ffe9f3); border-radius: 18px; cursor:pointer; border: 1px solid rgba(255,63,134,.18); min-height: 110px; }
-.box .label{ display:flex; align-items:center; justify-content:space-between; font-weight:900; }
-.box-result{ margin-top: 10px; font-weight:800; color: var(--pink); font-size: 15px; }
+.big-title{
+  text-align:center;
+  color:var(--pink);
+  font-size: var(--title);
+  font-weight:800;
+  margin-bottom: 10px;
+}
+.text-col p{
+  text-align:center;
+  line-height:1.75;
+  margin: 8px 0;
+}
+.big-question{
+  margin: 16px 0 10px;
+  text-align:center;
+  font-size: var(--sub);
+  font-weight:900;
+  color:#ff2f7a;
+}
 
-.btn{ height: var(--btnH); width:100%; border:none; border-radius: 16px; font-weight:900; cursor:pointer; background: linear-gradient(90deg, var(--red), var(--pink)); color:white; }
-.btn-ghost{ height: 44px; width:100%; border-radius: 14px; border:1px solid rgba(255,63,134,.22); background: white; font-weight:900; cursor:pointer; }
-textarea{ width:100%; border-radius: 16px; border: 1px solid #ddd; padding: 12px; font-family:inherit; font-size: 16px; min-height: 110px; resize: none; outline: none; }
+/* boxes */
+.box-row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 18px 0 0;
+  justify-content:center;
+  z-index:2;
+}
+.box{
+  padding: 14px;
+  background: linear-gradient(180deg, #fff3f8, #ffe9f3);
+  border-radius: 18px;
+  text-align:left;
+  font-weight:900;
+  cursor:pointer;
+  border: 1px solid rgba(255,63,134,.18);
+  box-shadow: 0 14px 26px rgba(0,0,0,.08);
+  transition: transform .12s ease;
+  min-height: 110px;
+}
+.box:active{ transform: scale(.98) }
+.box .label{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  font-size: 18px;
+}
+.box small{
+  display:block;
+  font-weight:800;
+  opacity:.82;
+  margin-top:6px;
+  line-height:1.35;
+}
+.box-result{
+  margin-top: 12px;
+  font-weight:900;
+  color: var(--pink);
+  line-height:1.45;
+}
 
-.love-footer{ margin-top: 18px; padding-top: 14px; border-top:1px dashed #ffd1e6; display:flex; justify-content:space-between; flex-wrap:wrap; font-weight:800; }
+/* buttons / inputs */
+.btn{
+  height: var(--btnH);
+  width:100%;
+  border:none;
+  border-radius: 16px;
+  font-family:inherit;
+  font-weight:900;
+  cursor:pointer;
+  background: linear-gradient(90deg, var(--red), var(--pink));
+  color:white;
+  box-shadow: 0 16px 30px rgba(255,63,134,.25);
+}
+.btn:active{ transform: scale(.99) }
 
-@media (max-width: 820px){ .content-inner{ flex-direction:column; align-items:center; } .image-col{ width: 100%; max-width: 300px; } }
-@media (max-width: 520px){ .box-row{ grid-template-columns: 1fr; } }
+.btn-ghost{
+  height: 44px;
+  width:100%;
+  border-radius: 14px;
+  border:1px solid rgba(255,63,134,.22);
+  background: rgba(255,255,255,.8);
+  font-family:inherit;
+  font-weight:900;
+  cursor:pointer;
+}
 
-.panel{ margin-top: 12px; padding: 14px; border-radius: 18px; background: rgba(255,240,248,.9); border: 2px solid var(--pink); display:none; }
+textarea{
+  width:100%;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,.92);
+  padding: 12px 12px;
+  font-family:inherit;
+  font-size: var(--text);
+  line-height:1.5;
+  outline:none;
+  resize:none;
+  min-height: 110px;
+  color:#2a2230;
+}
+
+.helper{
+  margin-top:10px;
+  font-weight:800;
+  opacity:.85;
+  text-align:center;
+}
+
+/* footer */
+.love-footer{
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top:1px dashed #ffd1e6;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap: 10px;
+  z-index:1;
+}
+.love-left p{margin:6px 0;font-weight:800}
+.love-right{font-weight:900;color:var(--pink)}
+
+/* ===== MOBILE ===== */
+@media (max-width: 820px){
+  .content-inner{
+    flex-direction:column;
+    align-items:center;
+  }
+  .image-col{
+    width: min(340px, 86vw);
+    margin-top: 8px;
+  }
+}
+@media (max-width: 520px){
+  .box-row{ grid-template-columns: 1fr; }
+}
+
+/* panel */
+.panel{
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255,240,248,.7);
+  border: 1px solid rgba(255,63,134,.18);
+  z-index:3;
+  position:relative;
+}
+.panel h3{
+  margin:0 0 8px;
+  font-size: 18px;
+  color:#ff2f7a;
+}
+.panel .big{
+  font-size: 28px;
+  font-weight: 900;
+  color: #ff2f7a;
+  text-align:center;
+  margin: 10px 0 6px;
+}
+.panel .meaning{
+  text-align:center;
+  font-weight:900;
+  line-height:1.4;
+}
 </style>
 </head>
 
@@ -119,24 +410,35 @@ textarea{ width:100%; border-radius: 16px; border: 1px solid #ddd; padding: 12px
 <div class="app">
 
 <section class="intro" id="intro">
-  <div class="gift" id="gift">
+  <div class="gift" id="gift" aria-label="Mở quà">
     <div class="gift-lid"></div>
-    <div class="gift-box"><div class="ribbon-v"></div><div class="ribbon-h"></div></div>
+    <div class="gift-box">
+      <div class="ribbon-v"></div>
+      <div class="ribbon-h"></div>
+    </div>
   </div>
+
   <h2>Pí Na dễ thương<br>Anh thương Pí Na lắm áaaa</h2>
-  <p>Chạm vào hộp quà Tết của anh nèeee 💗</p>
+  <p>Anh có món quà Tết nhỏ nhỏ, nhưng đầy yêu thương 💗</p>
+  <div class="tap-hint">🎁 <span>Chạm để mở quà nèeee</span> ✨</div>
 </section>
 
 <section class="content" id="content">
   <div class="big-title reveal">Gửi Pí Na của anh 💕</div>
+
   <div class="content-inner">
     <div class="text-col">
       <p class="reveal">Nhân dịp <b>Tết 2026</b> 🎊</p>
       <p class="reveal">Anh chúc Pí Na luôn xinh xắn, đáng yêu 🌸</p>
       <p class="reveal">luôn khỏe mạnh, vui vẻ và bình an 🧧</p>
-      <p class="reveal">và thương anh nhiều hơn nữa nha 💖</p>
-      <div class="big-question reveal">Pí Na chọn gì nèeee?</div>
+      <p class="reveal">điều gì cũng hanh thông, ước gì cũng thành ✨</p>
+      <p class="reveal">và… năm nay mình thương nhau nhiều hơn năm trước nữa nha 💖</p>
+
+      <div class="big-question reveal">
+        Pí Na muốn mở món nào trước nèeee? 💗
+      </div>
     </div>
+
     <div class="image-col" id="imageCol">
       <img src="Cafeee.jpeg" alt="Pí Na">
     </div>
@@ -145,136 +447,386 @@ textarea{ width:100%; border-radius: 16px; border: 1px solid #ddd; padding: 12px
   <div class="box-row reveal" id="boxRow">
     <div class="box" id="boxLucky">
       <div class="label"><span>🧧 Lì xì may mắn</span><span>›</span></div>
-      <div class="box-result" id="luckyPreview">Chưa mở nè...</div>
+      <small>Lắc điện thoại để đổi số tuỳ thích 💥💗</small>
+      <div class="box-result" id="luckyPreview"></div>
     </div>
+
     <div class="box" id="boxWish">
-      <div class="label"><span>🌠 Điều ước</span><span>›</span></div>
-      <div class="box-result" id="wishPreview">Chưa ước gì nè...</div>
+      <div class="label"><span>🌠 Điều ước của Pí Na</span><span>›</span></div>
+      <small>Gõ thoải mái, không giới hạn ký tự nha ✍️</small>
+      <div class="box-result" id="wishPreview"></div>
     </div>
   </div>
 
-  <div class="panel" id="panel"></div>
+  <!-- GIỮ reveal để fade, nhưng JS sẽ “ép hiện” khi user bấm box -->
+  <div class="panel reveal" id="panel" style="display:none;"></div>
 
   <div class="love-footer reveal" id="footer">
-    <div class="love-left">Anh thương Pí Na nhất! 💗</div>
+    <div class="love-left">
+      <p>Anh thương Pí Na nhất trên đời 💗💗💗</p>
+      <p>Chúc mừng năm mới nèeee 🎊</p>
+      <p>Tụi mình cùng cố gắng về 1 nhà nhaaaaa 💍</p>
+    </div>
     <div class="love-right">Anh yêu của Pí Naaa</div>
   </div>
 </section>
 
 </div>
 
-<audio id="music" loop><source src="mot-ngay-hay-tram-nam.mp3"></audio>
+<audio id="music" loop>
+  <source src="mot-ngay-hay-tram-nam.mp3">
+</audio>
 
 <script>
 const gift = document.getElementById("gift");
 const intro = document.getElementById("intro");
 const content = document.getElementById("content");
 const music = document.getElementById("music");
+const imageCol = document.getElementById("imageCol");
+
+const boxLucky = document.getElementById("boxLucky");
+const boxWish  = document.getElementById("boxWish");
 const luckyPreview = document.getElementById("luckyPreview");
-const wishPreview = document.getElementById("wishPreview");
+const wishPreview  = document.getElementById("wishPreview");
 const panel = document.getElementById("panel");
+const boxRow = document.getElementById("boxRow");
+const footer = document.getElementById("footer");
 
 let opened = false;
-const LUCKY_LIST = [
-  { value:"0805", meaning:"Ngày mình quen nhau - Mãi bên nhau nhé! 💖" },
-  { value:"68", meaning:"Lộc Phát - Năm mới giàu sang cùng anh 💗" },
-  { value:"1314", meaning:"Một đời một kiếp chỉ yêu mình Pí Na 💘" },
-  { value:"2026", meaning:"Năm của tụi mình - Hạnh phúc rực rỡ ✨" }
-];
 
-/* CÁC HÀM CƠ BẢN */
-function boomHearts(){
-  const wrap = document.createElement("div"); wrap.className = "boom";
-  for(let i=0;i<20;i++){
-    const p = document.createElement("div"); p.className = "p";
-    p.textContent = ["💖","💗","✨"][Math.floor(Math.random()*3)];
-    p.style.setProperty("--x", (Math.random()*400-200)+"px");
-    p.style.setProperty("--y", (Math.random()*400-200)+"px");
+/* MUSIC */
+function playMusic(){
+  try{
+    music.volume = 0;
+    music.play();
+    let v = 0;
+    const fade = setInterval(()=>{
+      v += 0.02;
+      if(v >= 0.5){ v = 0.5; clearInterval(fade); }
+      music.volume = v;
+    }, 120);
+  }catch(e){}
+}
+
+/* HEART BOOM */
+function boomHearts(x=window.innerWidth/2, y=window.innerHeight/2, count=18){
+  const wrap = document.createElement("div");
+  wrap.className = "boom";
+  wrap.style.left = x + "px";
+  wrap.style.top  = y + "px";
+
+  const chars = ["💖","💗","💞","✨","💘"];
+  for(let i=0;i<count;i++){
+    const p = document.createElement("div");
+    p.className = "p";
+    p.textContent = chars[Math.floor(Math.random()*chars.length)];
+    const angle = Math.random()*Math.PI*2;
+    const dist = 70 + Math.random()*140;
+    p.style.setProperty("--x", (Math.cos(angle)*dist)+"px");
+    p.style.setProperty("--y", (Math.sin(angle)*dist)+"px");
+    p.style.animationDelay = (Math.random()*120)+"ms";
     wrap.appendChild(p);
   }
-  document.body.appendChild(wrap); setTimeout(()=>wrap.remove(), 1000);
+  document.body.appendChild(wrap);
+  setTimeout(()=>wrap.remove(), 1000);
+}
+function vibrate(ms=30){ if(navigator.vibrate) navigator.vibrate(ms); }
+
+/* ✅ FIX CHÍNH: ép panel hiện ngay khi user bấm box
+   Vì panel có class "reveal" -> opacity 0 nếu không add "show" */
+function openPanel(){
+  panel.style.display = "block";
+  panel.classList.add("show");
+  panel.style.opacity = "1";
+  panel.style.transform = "translateY(0)";
 }
 
-function vibrate(){ if(navigator.vibrate) navigator.vibrate(30); }
+/* TYPEWRITER */
+function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+async function typeLine(el, totalMs = 3600){
+  const full = el.dataset.fulltext ?? el.textContent;
+  el.dataset.fulltext = full;
+  el.textContent = "";
+  el.classList.add("show");
 
-/* MỞ QUÀ */
-gift.onclick = () => {
-  if(opened) return; opened = true;
-  music.play().catch(()=>{});
+  const n = Math.max(1, full.length);
+  const step = Math.max(15, Math.floor(totalMs / n));
+  for(let i=1;i<=n;i++){
+    el.textContent = full.slice(0,i);
+    await sleep(step);
+  }
+}
+
+async function playTypewriterSequence(){
+  const title = document.querySelector(".big-title.reveal");
+  const lines = Array.from(document.querySelectorAll(".text-col p.reveal"));
+  const question = document.querySelector(".big-question.reveal");
+
+  setTimeout(()=>imageCol.classList.add("show"), 900);
+
+  if(title) await typeLine(title, 3600);
+  for(const el of lines){
+    await typeLine(el, 3600);
+    await sleep(200);
+  }
+  if(question) await typeLine(question, 3600);
+
+  boxRow.classList.add("show");
+  await sleep(250);
+  footer.classList.add("show");
+}
+
+/* OPEN GIFT */
+gift.onclick = (e) => {
+  if(opened) return;
+  opened = true;
+
+  playMusic();
   gift.classList.add("opening");
-  vibrate(); boomHearts();
-  setTimeout(() => {
-    intro.style.display = "none";
-    content.style.display = "block";
-    document.querySelectorAll(".reveal").forEach((el, i) => {
-      setTimeout(() => el.classList.add("show"), i * 400);
-    });
-    document.getElementById("imageCol").classList.add("show");
-  }, 800);
+  vibrate(25);
+  boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 22);
+
+  setTimeout(()=>{
+    intro.style.display="none";
+    content.style.display="block";
+    playTypewriterSequence();
+  }, 850);
 };
 
-/* BOX LÌ XÌ */
-function showLucky() {
+/* LUCKY LIST (+0805) */
+const LUCKY_LIST = [
+  { value:"0805", meaning:"Ngày mình bắt đầu quen nhau — và anh muốn bên Pí Na mãi mãi, không chỉ một mùa Tết 💖" },
+  { value:"68",   meaning:"Lộc Phát — Năm nay tài lộc gõ cửa, còn anh thì ở lại bên Pí Na 💗" },
+  { value:"86",   meaning:"Phát Lộc — Làm gì cũng thuận, yêu gì cũng bền nha 🌸" },
+  { value:"99",   meaning:"Trường Cửu — Không chỉ năm nay, mà là dài lâu 💞" },
+  { value:"1314", meaning:"Một đời một kiếp — Anh chọn yêu Pí Na không có thời hạn 💘" },
+  { value:"2026", meaning:"Năm của tụi mình — Mình thương nhau rực rỡ trong năm mới ✨" }
+];
+
+const LS_LUCKY = "pina_lucky";
+let lucky = localStorage.getItem(LS_LUCKY) || "";
+
+function pickLucky(){
   const item = LUCKY_LIST[Math.floor(Math.random()*LUCKY_LIST.length)];
-  luckyPreview.innerHTML = `Số của Pí Na: <b>${item.value}</b> 💗`;
-  panel.style.display = "block";
-  panel.innerHTML = `
-    <h3 style="text-align:center; color:#ff3f86">🧧 Lì xì của Pí Na</h3>
-    <div style="font-size:40px; text-align:center; font-weight:900; color:#ff2a2a">${item.value}</div>
-    <p style="text-align:center; font-weight:800">${item.meaning}</p>
-    <button class="btn" onclick="this.textContent='Đã nhận thành công! 💖'; boomHearts();">Nhận ngay 💥</button>
-    <p style="font-size:12px; text-align:center; margin-top:10px">Thử lại bằng cách bấm vào Box Lì Xì nhé!</p>
-  `;
-  panel.scrollIntoView({behavior: "smooth"});
+  lucky = item.value;
+  localStorage.setItem(LS_LUCKY, lucky);
+  return item;
 }
-document.getElementById("boxLucky").onclick = () => { vibrate(); showLucky(); };
+function renderLuckyPreview(){
+  if(lucky){
+    const item = LUCKY_LIST.find(x=>x.value===lucky) || {value:lucky};
+    luckyPreview.textContent = `Số hiện tại: ${item.value} 💗`;
+  }else luckyPreview.textContent = "";
+}
+renderLuckyPreview();
 
-/* BOX ĐIỀU ƯỚC */
-function showWish() {
-  panel.style.display = "block";
-  const saved = localStorage.getItem("pina_wish") || "";
+function showLuckyPanel(forceNew=false){
+  const item = (forceNew || !lucky) ? pickLucky() : (LUCKY_LIST.find(x=>x.value===lucky) || pickLucky());
+  renderLuckyPreview();
+
+  openPanel();
   panel.innerHTML = `
-    <h3 style="text-align:center; color:#ff3f86">🌠 Điều ước của Pí Na</h3>
-    <textarea id="wishInput" placeholder="Pí Na muốn gì nè...">${saved}</textarea>
-    <button class="btn" style="margin-top:10px" id="saveWishBtn">Gửi điều ước cho anh ✨</button>
+    <h3>🧧 Lì xì may mắn của Pí Na</h3>
+    <div class="big">${item.value}</div>
+    <div class="meaning">${item.meaning}</div>
+    <div style="height:12px"></div>
+    <button class="btn" id="btnReceive">Nhận lì xì của anh 💥</button>
+    <div style="height:10px"></div>
+    <button class="btn-ghost" id="btnShakeOn">Bật chế độ lắc 🎛️</button>
+    <div class="helper">Lắc nhẹ để đổi số tuỳ thích nha 💗</div>
   `;
-  panel.scrollIntoView({behavior: "smooth"});
 
-  document.getElementById("saveWishBtn").onclick = () => {
-    const txt = document.getElementById("wishInput").value;
-    if(txt.trim()) {
-      localStorage.setItem("pina_wish", txt);
-      wishPreview.innerHTML = `<span style="color:#ff3f86">Đã gửi: ${txt.substring(0,10)}...</span>`;
-      panel.innerHTML = `<h3 style="text-align:center">💖 Anh đã nhận lệnh!</h3><p style="text-align:center">Anh sẽ thực hiện điều này cho Pí Na sớm nhất!</p>`;
-      boomHearts(); vibrate();
-    }
+  const btnReceive = document.getElementById("btnReceive");
+  btnReceive.onclick = () => {
+    const extra = (item.value === "0805") ? 44 : 28;
+    vibrate(45);
+    boomHearts(window.innerWidth/2, window.innerHeight/2, extra);
+    btnReceive.textContent = "Anh ghi nợ lì xì thật — trao tận tay Pí Na nha 💗";
+    btnReceive.disabled = true;
+    btnReceive.style.opacity = .95;
+  };
+
+  document.getElementById("btnShakeOn").onclick = async () => {
+    const ok = await enableShake();
+    vibrate(20);
+    document.getElementById("btnShakeOn").textContent = ok ? "Đã bật lắc ✅" : "Không bật được 🥺";
   };
 }
-document.getElementById("boxWish").onclick = () => { vibrate(); showWish(); };
 
-/* LẮC ĐIỆN THOẠI (Dành cho Lì xì) */
-let lastShake = 0;
-window.addEventListener('devicemotion', (e) => {
-  let acc = e.accelerationIncludingGravity;
+boxLucky.onclick = (e) => {
+  showLuckyPanel(false);
+  vibrate(18);
+  boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 16);
+};
+
+/* WISH */
+const LS_WISH = "pina_wish";
+
+function escapeHTML(str){
+  return str.replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+  }[m]));
+}
+function renderWishPreview(){
+  const saved = (localStorage.getItem(LS_WISH) || "").trim();
+  wishPreview.textContent = saved ? "Có điều ước đã lưu 💗" : "";
+}
+renderWishPreview();
+
+function showWishPanel(){
+  const saved = localStorage.getItem(LS_WISH) || "";
+
+  openPanel();
+  panel.innerHTML = `
+    <h3>🌠 Điều ước của Pí Na</h3>
+    <div class="meaning" style="text-align:center; font-weight:900; margin-bottom:10px; color:#ff2f7a;">
+      “Điều ước của Pí Na muốn anh thực hiện năm nay là gì?”
+    </div>
+
+    <textarea id="wishInput" placeholder="Pí Na cứ gõ thoải mái nha… (Telex cũng ok) 💗"
+      autocomplete="off" autocapitalize="sentences" spellcheck="false"></textarea>
+
+    <div style="height:12px"></div>
+    <button class="btn" id="btnSendWish">Gửi điều ước ✨</button>
+    <div style="height:10px"></div>
+    <button class="btn-ghost" id="btnClearWish">Xoá để viết lại</button>
+    <div class="helper">Tip: Gửi xong anh sẽ “đóng dấu” nhận nhiệm vụ nha 💖</div>
+  `;
+
+  const input = document.getElementById("wishInput");
+  input.value = saved;
+
+  const resize = () => {
+    input.style.height = "auto";
+    input.style.height = Math.min(input.scrollHeight, 360) + "px";
+  };
+  input.addEventListener("input", () => {
+    localStorage.setItem(LS_WISH, input.value);
+    resize();
+  });
+  resize();
+
+  document.getElementById("btnSendWish").onclick = () => {
+    const wish = input.value.trim();
+    if(!wish){
+      vibrate(20);
+      boomHearts(window.innerWidth/2, window.innerHeight/2, 12);
+      input.focus();
+      return;
+    }
+
+    localStorage.setItem(LS_WISH, wish);
+    renderWishPreview();
+
+    vibrate(55);
+    boomHearts(window.innerWidth/2, window.innerHeight/2, 30);
+
+    openPanel();
+    panel.innerHTML = `
+      <h3>✅ Anh đã nhận nhiệm vụ!</h3>
+      <div class="meaning" style="text-align:center; font-weight:900; color:#ff2f7a;">
+        Điều ước của Pí Na là:
+      </div>
+      <div class="panel" style="margin-top:10px;">
+        <div style="font-weight:900; line-height:1.55;">${escapeHTML(wish).replace(/\n/g,"<br>")}</div>
+      </div>
+      <div class="meaning" style="margin-top:12px; text-align:center; font-weight:900;">
+        Anh nghiêm túc thực hiện. Pí Na yên tâm nha 💗
+      </div>
+      <div style="height:12px"></div>
+      <button class="btn" id="btnBackWish">Viết thêm / sửa lại</button>
+      <div style="height:10px"></div>
+      <button class="btn-ghost" id="btnShakeOn2">Bật chế độ lắc 🎛️</button>
+      <div class="helper">Lắc nhẹ 1 cái để “thả sao” ✨</div>
+    `;
+
+    document.getElementById("btnBackWish").onclick = showWishPanel;
+    document.getElementById("btnShakeOn2").onclick = async () => {
+      const ok = await enableShake();
+      vibrate(20);
+      boomHearts(window.innerWidth/2, window.innerHeight/2, 12);
+      document.getElementById("btnShakeOn2").textContent = ok ? "Đã bật lắc ✅" : "Không bật được 🥺";
+    };
+  };
+
+  document.getElementById("btnClearWish").onclick = () => {
+    localStorage.removeItem(LS_WISH);
+    input.value = "";
+    resize();
+    input.focus();
+    vibrate(15);
+  };
+}
+
+boxWish.onclick = (e) => {
+  showWishPanel();
+  vibrate(18);
+  boomHearts(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 16);
+};
+
+/* SHAKE */
+let shakeEnabled = false;
+let lastShakeTime = 0;
+
+function handleMotion(e){
+  if(!shakeEnabled) return;
+  const acc = e.accelerationIncludingGravity;
   if(!acc) return;
-  let speed = Math.sqrt(acc.x**2 + acc.y**2 + acc.z**2);
-  if(speed > 20 && Date.now() - lastShake > 1000) {
-    lastShake = Date.now();
-    if(content.style.display === "block") {
-      showLucky(); vibrate();
+
+  const x = acc.x || 0, y = acc.y || 0, z = acc.z || 0;
+  const mag = Math.sqrt(x*x + y*y + z*z);
+
+  if(mag > 18){
+    const now = Date.now();
+    if(now - lastShakeTime < 900) return;
+    lastShakeTime = now;
+
+    const panelText = (panel.innerText || "").toLowerCase();
+
+    if(panel.style.display === "block" && panelText.includes("lì xì")){
+      const item = pickLucky();
+      renderLuckyPreview();
+      vibrate(30);
+      boomHearts(window.innerWidth/2, window.innerHeight/2, item.value === "0805" ? 40 : 18);
+      showLuckyPanel(false);
+      return;
+    }
+
+    if(panel.style.display === "block" && panelText.includes("điều ước")){
+      vibrate(20);
+      boomHearts(window.innerWidth/2, window.innerHeight/2, 14);
     }
   }
-});
+}
 
-/* EMOJI BAY BAY */
+async function enableShake(){
+  try{
+    if(typeof DeviceMotionEvent !== "undefined" && typeof DeviceMotionEvent.requestPermission === "function"){
+      const res = await DeviceMotionEvent.requestPermission();
+      if(res !== "granted") return false;
+    }
+    if(!shakeEnabled){
+      window.addEventListener("devicemotion", handleMotion, { passive:true });
+      shakeEnabled = true;
+    }
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+/* FLOATING */
+const floatChars = ["💖","✨","🧧","🌸","💗","🎊"];
 setInterval(()=>{
-  const el = document.createElement("div");
-  el.className = "floating"; el.style.left = Math.random()*100+"vw";
-  el.style.animationDuration = (Math.random()*3+4)+"s";
-  el.innerText = ["💖","🌸","🧧","✨"][Math.floor(Math.random()*4)];
+  const el=document.createElement("div");
+  el.className="floating";
+  el.style.left=Math.random()*100+"vw";
+  el.style.animationDuration=(6+Math.random()*4)+"s";
+  el.style.fontSize=(16+Math.random()*10)+"px";
+  el.innerText=floatChars[Math.floor(Math.random()*floatChars.length)];
   document.body.appendChild(el);
-  setTimeout(()=>el.remove(), 7000);
-}, 500);
+  setTimeout(()=>el.remove(),10000);
+},420);
 </script>
 </body>
 </html>
